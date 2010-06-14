@@ -20,7 +20,7 @@ EOF
 ctrl_c()
 {
   echo "ctrl+c ... bye ..."
-  rm -f ./tr*.$$ ./mr*.$$
+  rm -f ./tr*.$$ ./mr*.$$ ./d*.$$
 }
 
 trap ctrl_c SIGINT
@@ -96,7 +96,7 @@ then
   d2=`cat ./d2.$$`
 fi
 
-rm -f tr*.$$ mr*.$$  d*.$$
+rm -f tr*.$$ mr*.$$ d*.$$
 
 if [ $n_ends == 1 ]
 then
