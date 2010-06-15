@@ -28,7 +28,7 @@ trap ctrl_c SIGINT
 if=""
 n_ends=1
 mmq=0
-while getopts 'i:e:m:h' OPTION
+while getopts "i:e:m:h" OPTION
 do
   case $OPTION in
     i)
@@ -39,6 +39,10 @@ do
       ;;
     m)
       mmq=$OPTARG
+      ;;
+    h)
+      usage
+      exit 0
       ;;
     ?)
       usage
