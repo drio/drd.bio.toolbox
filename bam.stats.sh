@@ -17,6 +17,10 @@ Extract various stats from a SAM/BAM file
   -i <sam/bam file> : input SAM/BAM file
   -e n_ends         : number of ends [1]
   -m min_map_qual   : minimum mapping quality to account for [0]
+
+Example(s):
+
+  $ bam.stats.sh -i mybam.sort.dups.bam -e 2 -m 1 > stats.01003310991_3.bf2.n3.merged.sort.dups.1mq.txt
 EOF
   exit 0
 }
