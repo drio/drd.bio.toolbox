@@ -9,10 +9,14 @@ usage()
 {
   [ ".$1" != "." ] && echo "ERROR: $1"
   cat <<-EOF
-Usage:
-  `basename $0` -i <sam/bam file> [-e n_ends] [-m min_map_qual]
-  n_ends      : 1 or 2 [1]
-  min_map_qual: default [0]
+
+usage: `basename $0` options
+
+Extract various stats from a SAM/BAM file
+
+  -i <sam/bam file> : input SAM/BAM file
+  -e n_ends         : number of ends [1]
+  -m min_map_qual   : minimum mapping quality to account for [0]
 EOF
   exit 0
 }
