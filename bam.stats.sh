@@ -2,6 +2,9 @@
 #
 # bam.stats.sh: Generates stats from a bam file
 #
+# TODO:
+# 1. When ctrl+c kill samtools instances too
+#
 set -e
 #set -x
 
@@ -82,16 +85,18 @@ fi
 
 if [ $n_ends == 1 ]
 then
-  samtools view $stf -q $mmq $if         | wc -l > ./tr1.$$ &
-  samtools view $stf -q $mmq -F 4 $if    | wc -l > ./mr1.$$ &
+  samtools view $stf $if                 | wc -l > ./tr1.$$ &
+  samtools view $stf -q $mmq $if -F 4    | wc -l > ./mr1.$$ &
   samtools view $stf -q $mmq -f 1024 $if | wc -l > ./d1.$$ &
 else
-  samtools view $stf -q $mmq -f 64       $if | wc -l > ./tr1.$$ &
-  samtools view $stf -q $mmq -f 128      $if | wc -l > ./tr2.$$ &
-  samtools view $stf -q $mmq -f 64 -F 4  $if | wc -l > ./mr1.$$ &
+  samtools view $stf -f 64  $if         | wc -l > ./tr1.$$ &
+  samtools view $stf -f 128 $if         | wc -l > ./tr2.$$ &
+
+  samtools view $stf -q $mmq -f 64  -F 4 $if | wc -l > ./mr1.$$ &
   samtools view $stf -q $mmq -f 128 -F 4 $if | wc -l > ./mr2.$$ &
-  samtools view $stf -q $mmq -f 1088     $if | wc -l > ./d1.$$  &
-  samtools view $stf -q $mmq -f 1152     $if | wc -l > ./d2.$$  &
+
+  samtools view $stf -f 1088 $if | wc -l > ./d1.$$  &
+  samtools view $stf -f 1152 $if | wc -l > ./d2.$$  &
 fi
 
 sleep 1
