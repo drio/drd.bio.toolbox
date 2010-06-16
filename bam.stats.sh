@@ -129,5 +129,5 @@ else
 
   echo -ne "# Total  read2:\t $[$tr2]\n"
   echo -ne "# mapped read2:\t $[$mr2] (`echo "scale=2 ; ($mr2*100)/$tr2 " | bc`%) \n"
-  echo -ne "# dups   read1:\t $[$d2] (`echo "scale=2 ; ($d2*100)/$tr1 " | bc`%) \n"
+  echo -ne "# dups   read2:\t $[$d2] (`echo "scale=2 ; ($d2*100)/$tr2 " | bc`%) \n"
 fi
