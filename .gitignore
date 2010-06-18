@@ -1,1 +1,3 @@
 test/i.sam
+bwa_test/raw/*
+bwa_test/raw_v4/*
