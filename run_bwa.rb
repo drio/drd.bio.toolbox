@@ -179,3 +179,11 @@ Options:
  -s, --s2f s         Path to solid2fastq script 
  -b, --bb  b         Path to bwa bin
  -r, --ref r         Path to ref genome
+
+Examples:
+
+$ # Interactive
+$ run_bwa.rb -r ./raw -u "raw/0097_20100111_1_SP_ANG_RC_LCA_K86_3_1sA_01003280864_2_" -s /stornext/snfs1/next-gen/software/bwa-svn/solid2fastq.pl -b `which bwa` -f /stornext/snfs4/next-gen/solid/bwa.references/h/hsap.36.1.hg18/hsap_36.1_hg18.cs | /bin/bash"
+
+$ # lsf mode
+$ bsub -q high -J great_times "../run_bwa.rb -r ./raw -u "raw/0097_20100111_1_SP_ANG_RC_LCA_K86_3_1sA_01003280864_2_" -s /stornext/snfs1/next-gen/software/bwa-svn/solid2fastq.pl -b `which bwa` -f /stornext/snfs4/next-gen/solid/bwa.references/h/hsap.36.1.hg18/hsap_36.1_hg18.cs | /bin/bash"
