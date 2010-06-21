@@ -1,6 +1,7 @@
 #!/bin/bash
 
-rm -rf raw_v4 raw
+rm -rf raw_v4 raw 
+rm -f *.sai *.txt *.gz *.sam *.bam *.fastq
 
 mkdir -p raw
 cd raw
