@@ -132,8 +132,8 @@ class BWA_wrapper
   end
 
   def process_options
-    @path_raw = @options.path_raw.gsub(/\/$/, '') || nil
-    @run_name = @options.run_name.gsub(/\/$/, '') || nil
+    @path_raw = @options.path_raw.nil? ? nil : @options.path_raw.gsub(/\/$/, '')
+    @run_name = @options.run_name || nil
     @ref      = @options.ref      || nil
     log "Problems with path to raw data"    , 1, 1 if @path_raw.nil? || !Dir.exists?(@path_raw)
     log "No run name provided"              , 1, 1 if @run_name.nil?
