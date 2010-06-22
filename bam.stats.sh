@@ -113,7 +113,7 @@ then
   d2=`cat ./d2.$$`
 fi
 
-rm -f tr*.$$ mr*.$$ d*.$$
+#rm -f tr*.$$ mr*.$$ d*.$$
 
 if [ $n_ends == 1 ]
 then

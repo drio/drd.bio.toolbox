@@ -117,7 +117,7 @@ class BWA_wrapper
 
   def bam_sort_dups
     @s.add_n ""
-    @s.add_n "#{@tb_dir}/bam_sort_dups.sh #{fixed_run_name}.sort.dups #{fixed_run_name}.sam | /bin/bash"
+    @s.add_n "#{@tb_dir}/bam_sort_dups.sh #{fixed_run_name} #{fixed_run_name}.sam | /bin/bash"
   end
 
   def stats
