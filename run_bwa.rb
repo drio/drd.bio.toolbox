@@ -174,11 +174,14 @@ Options:
 Examples:
 
 $ r="0097_20100111_1_SP_ANG_RC_LCA_K86_3_1sA_01003280864_2_"
-$ p="./raw"
+$ p="./raw" # See notes
 $ ref="/stornext/snfs4/next-gen/solid/bwa.references/h/hsap.36.1.hg18/hsap_36.1_hg18.cs"
-
 $ # Run Interactively
 $ run_bwa.rb -r $p -u $r -f $ref
-
 $ # Run via LSF
-$ bsub -q high -J great_times "run_bwa.rb -r $p -u $r -f $ref"
+$ bsub -o lsf.o -e lsf.e -q high -R 'rusage[mem=29000]span[hosts=1]' -J run.bwa.$r "run_bwa.rb -r $p -u $r -f $ref | /bin/bash"
+
+NOTES:
+
+solid2fastq.pl (from the bwa distro) does not support v4 data (PE). So you have to rename/link the F5 files
+to R3. We have to add that feature.
