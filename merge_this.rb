@@ -17,13 +17,15 @@ n_i = files_to_merge.inject("") do |f, i|
   f << "INPUT=" + i + " "
 end
 
-puts DATA.read.gsub(/INPUTS/, n_i).gsub(/XXOUTXX/, out_fn)
+cmd=DATA.read.gsub(/INPUTS/, n_i).gsub(/XXOUTXX/, out_fn)
+puts "running: #{cmd}"
+`#{cmd}`
 
 __END__
-bsub -o out -e err \
--q high \
--R 'rusage[mem=8000]span[hosts=1]' \
--J merge_this.XXOUTXX \
+#bsub -o out -e err \
+#-q high \
+#-R 'rusage[mem=8000]span[hosts=1]' \
+#-J merge_this.XXOUTXX \
 /stornext/snfs1/next-gen/software/jdk1.6.0_01/bin/java -jar -Xmx8g \
 /stornext/snfs1/next-gen/software/picard-tools/current/MergeSamFiles.jar \
 INPUTS \

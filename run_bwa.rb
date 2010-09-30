@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 #
 # run_bwa.rb: wrapper on top of bwa
 #
@@ -62,7 +62,7 @@ class BWA_wrapper
   private
 
   def check_binaries
-    %w(samtools bsub solid2fastq.pl bwa).each do |b|
+    %w(samtools solid2fastq.pl bwa).each do |b|
       p = `which #{b}`.chomp
       log "Can't find bin: #{b}", 1, 1   unless $? == 0
       log "#{p} is not executable", 1, 1 unless File.executable?(p)
