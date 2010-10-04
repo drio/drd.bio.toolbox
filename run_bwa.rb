@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/bin/env ruby
 #
 # run_bwa.rb: wrapper on top of bwa
 #
@@ -79,8 +79,8 @@ class BWA_wrapper
   end
 
   def generate_script
-    fastqs
-    ungzip
+    #fastqs
+    #ungzip
     aln
     sam
     bam_sort_dups

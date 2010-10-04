@@ -3,17 +3,16 @@
 set -e
 #set -x
 
+source "`dirname ${BASH_SOURCE[0]}`/common.sh"
+
 root=$1
 if=$2
-java="/stornext/snfs1/next-gen/software/jdk1.6.0_01/bin/java"
-picard="/stornext/snfs1/next-gen/software/picard-tools/current"
-tmp="/space1/tmp"
 
 usage()
 {
   [ ".$1" != "." ] && echo "ERROR: $1"
   echo "Usage:"
-  echo "$0 <root seed> <sam|bam file>"
+  echo "$0 <root seed output file> <sam|bam file>"
   exit 0
 }
 
@@ -27,7 +26,7 @@ run()
 
 [ ".$if"  == "." ]  && usage "I need a sam file"
 [ ".$root" == "." ] && usage "I need a root seed"
-[ ! -d "$picard" ]  && usage "Couldn't find picard dir: $picard"
+[ ! -d "$picard_jars_dir" ]  && usage "Couldn't find picard dir: $picard_jars_dir"
 
 bi="$root.bam"
 bs="$root.sort.bam"
@@ -55,7 +54,7 @@ fi
 
 # 1. Sort by Coordinate
 cat <<EOF
-$java -jar -Xmx2g $picard/SortSam.jar \
+$java -jar -Xmx2g $picard_jars_dir/SortSam.jar \
 TMP_DIR=$tmp \
 INPUT=$bi \
 OUTPUT=$bs \
@@ -66,7 +65,7 @@ EOF
 
 # 2. Mark dups
 cat <<EOF
-$java -jar -Xmx6g $picard/MarkDuplicates.jar \
+$java -jar -Xmx6g $picard_jars_dir/MarkDuplicates.jar \
 TMP_DIR=$tmp \
 INPUT=$bs \
 OUTPUT=$bd \

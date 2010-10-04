@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/bin/env ruby
 #
 # time samtools view ./0.bam | ./plot_dist_mapq.rb
 # for i in `seq 0 8`; do samtools view ./$i.bam | ./plot_dist_mapq.rb $i  2>/dev/null & done ; wait &
