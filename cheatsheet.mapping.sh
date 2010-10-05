@@ -31,10 +31,10 @@ BFAST
   $ # -a3: Choose uniquely the alignment with the best score
   $ # -U : Don't perform pairing
   $ bfast_bin postprocess -f "./bfast.indexes/ff" -U -i bf.aligned.baf -n threads -a3 -O1 > bf.sam 2>/dev/null
-
--------------------------------------
-DIST dir: `dirname ${BASH_SOURCE[0]}`
--------------------------------------
 EOF
 
-ls -l `dirname ${BASH_SOURCE[0]}`
+echo "---------"
+echo "You may want to add this to your .bashrc (if you use bash): "
+echo "source `dirname ${BASH_SOURCE[0]}`/common.sh"
+echo 'export PATH=$PATH:$dnaa/dwgsim:$novo_cs:$novo_ss:$bin_dir/bwa:$bin_dir/bfast/bfast'
+

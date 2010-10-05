@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-set -e
+#set -e
 #set -x
 
 error()
@@ -39,13 +39,15 @@ novo_index_cs="$bin_dir/novoalign/bin/linux//novoalignCS/novoindex"
 novo_ss_index="novo.index.ss"
 novo_cs_index="novo.index.cs"
 novo_cs="$bin_dir/novoalign/bin/linux/novoalignCS"
-novo_ss="$bin_dir/novoalign/bin/linux/novoalignCS"
+novo_ss="$bin_dir/novoalign/bin/linux/novocraft"
+
 
 bwa="$bin_dir/bwa/bwa"
 tmp="/space1/tmp/"
 
 java="java"
 picard_jars_dir="/data/next_gen_1/drio_scratch/software/picard-tools"
+ruby="/data/next_gen_1/drio_scratch/software/bin/ruby"
 
 # Bfast
 #
@@ -62,5 +64,4 @@ h_masks=(
 11110110001011010011100101111101111
 1111111001000110001011100110001100011111
 )
-
 

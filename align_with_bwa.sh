@@ -10,8 +10,8 @@ ff=$1
 
 for n in `seq -f"%02g" 0 10`
 do
-  fq_r1=`ls *read1*.$n 2>/dev/null`
-  fq_r2=`ls *read2*.$n 2>/dev/null`
+  fq_r1=`ls *r1*.$n 2>/dev/null`
+  fq_r2=`ls *r2*.$n 2>/dev/null`
   if [ -f $fq_r1 ] && [ -f $fq_r2 ]
   then
     echo "$n: $fq_r1 $fq_r2"
