@@ -20,7 +20,6 @@ run()
 {
   j=${root}.$2
   cmd="$1"
-  #echo "bsub -q high -R 'rusage[mem=8000]' -J $j \"$cmd\""
   echo $1
 }
 

@@ -46,8 +46,12 @@ bwa="$bin_dir/bwa/bwa"
 tmp="/space1/tmp/"
 
 java="java"
+R="R"
 picard_jars_dir="/data/next_gen_1/drio_scratch/software/picard-tools"
 ruby="/data/next_gen_1/drio_scratch/software/bin/ruby"
+
+submit_bin="msub"  # MOAB
+#submit_bin="qsub" # PBS
 
 # Bfast
 #

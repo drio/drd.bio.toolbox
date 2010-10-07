@@ -2,6 +2,8 @@
 #
 # Merges bams
 #
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
 def usage
   puts <<END
 Usage: #{__FILE__} <list of files to merge> <out_bam>
@@ -9,20 +11,6 @@ END
   exit 1
 end
 
-# Load the common.sh data in a hash
-#
-def load_common
-  h={}
-  common_file = File.dirname(__FILE__) + "/common.sh"
-  File.open(common_file).each_line do |l| 
-    if l =~ /^[\w_-]+=["-\/\$\w_.]+\"$/
-      var, val = l.split('=')
-      h[var] = val.gsub(/"/, '').chomp
-      #puts var + ":" + h[var]
-    end
-  end 
-  h
-end
 
 ARGV.size < 2 && usage
 files_to_merge = ARGV[0..-2]
@@ -33,7 +21,7 @@ n_i = files_to_merge.inject("") do |f, i|
 end
 
 cmd = DATA.read.gsub(/_INPUTS_/, n_i).gsub(/_OUT_/, out_fn)
-ch  = load_common # common hash (ch)
+ch = Common::load_common
 cmd.gsub!(/_JAVA_/, ch["java"])
 cmd.gsub!(/_JAR_/, ch["picard_jars_dir"] + "/MergeSamFiles.jar")
 cmd.gsub!(/_TMP_/, ch["tmp"])
