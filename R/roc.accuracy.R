@@ -1,6 +1,6 @@
-#!/bin/env Rscript
 #
-# Global plotting setup
+# R CMD BATCH "--vanilla --args in.file='data_file'" < R_code
+#
 pdf(file='roc.accuracy.pdf', height=8, width=6)
 par(mfrow=c(1,1))
 colors <- c("red", "black", "green")
@@ -22,16 +22,16 @@ bwa_fdr  <- 1-(d$bwa_ok/d$bwa_mapped)
 novo_tpr <- (d$novo_ok/d$total)
 novo_fdr <- 1-(d$novo_ok/d$novo_mapped)
 
-xrange <- c(0,.2)
+xrange <- c(0,.15)
 yrange <- c(0,1)
 
 plot(xrange, yrange, type="n",
   xlab="False discovery rate (of mapped, fraction mapped incorrectly)",
   ylab="True positive rate (fraction mapped correctly)")
 
-lines(x=bwa_fdr, y=bwa_tpr, type=l_type, lwd=1.5, col=colors[1])
-lines(x=novo_fdr, y=novo_tpr, type=l_type, lwd=1.5, col=colors[2])
-lines(x=bf_fdr, y=bf_tpr, type=l_type, lwd=1.5, col=colors[3])
+lines(x=bf_fdr, y=bf_tpr, type=l_type, lwd=1.5, col=colors[1])
+lines(x=bwa_fdr, y=bwa_tpr, type=l_type, lwd=1.5, col=colors[2])
+lines(x=novo_fdr, y=novo_tpr, type=l_type, lwd=1.5, col=colors[3])
 
 title("Alignment Accuracy")
 legend("bottomright", tools , col=colors, lty=1:1:1, cex=1.0)

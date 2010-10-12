@@ -7,6 +7,7 @@ help()
 {
   echo "Usage:" 
   echo "`basename $0` <ref_genome_ff> <output_seed> <lines_per_split>"
+  echo "NOTE: remember you have 4 lines per read in a fastq file. (single end)"
   error "$1"
 }
 

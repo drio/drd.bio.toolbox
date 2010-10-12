@@ -36,5 +36,5 @@ for i in 1 2 5 10 15 20 25 30 35 40 45 50
 do
   n_rs=`echo "($genome_size)/($rl+($n_ends-1)) * $i" | bc`
   n_reads_per_split=`echo "$n_rs / $reads_per_split" | bc`
-  echo -e "${i}x = $n_rs ; $n_reads_per_split splits. ($reads_per_split reads per split)"
+  echo -e "${i}x = $n_rs reads. ; $n_reads_per_split splits. ($reads_per_split reads per split)"
 done

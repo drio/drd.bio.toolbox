@@ -18,19 +18,19 @@ do
     s_name_r1="bwa.aln.$fq_r1.sh"
     cmd="bwa aln -c -t$threads $ff $fq_r1 > $fq_r1.sai"
     script_this "$cmd" "$s_name_r1" 
-    dep_r1=`$submit_bin -N "$s_name_r1" -l "nodes=1:ppn=$threads" $s_name_r1`
+    dep_r1=`$submit_bin -N "$s_name_r1" -l "nodes=1:ppn=$threads" $s_name_r1 | tail -1`
     echo "  dep1: $dep_r1"
 
     s_name_r2="bwa.aln.$fq_r2.sh"
     cmd="bwa aln -c -t$threads $ff $fq_r2 > $fq_r2.sai"
     script_this "$cmd" "$s_name_r2" 
-    dep_r2=`$submit_bin -N "$s_name_r2" -l "nodes=1:ppn=$threads" $s_name_r2`
+    dep_r2=`$submit_bin -N "$s_name_r2" -l "nodes=1:ppn=$threads" $s_name_r2 | tail -1`
     echo "  dep2: $dep_r2"
 
     cmd="bwa sampe $ff $fq_r1.sai $fq_r2.sai $fq_r1 $fq_r2 > $n.sam"
     s_name="sampe.$n.sh"
     script_this "$cmd" "$s_name"
-    id=`$submit_bin -W "depend=afterok:$dep_r1:$dep_r2" -N $s_name -l "nodes=1:ppn=1" $s_name`
+    id=`$submit_bin -W "depend=afterok:$dep_r1:$dep_r2" -N $s_name -l "nodes=1:ppn=1" $s_name | tail -1`
     echo "  sampe id: $id"
   fi
 done

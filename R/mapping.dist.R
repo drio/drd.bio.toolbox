@@ -1,20 +1,22 @@
-#!/bin/env Rscript
+# 
+# cat bfast.eval.accuracy.txt | grep -v "0 / 0" | awk '{print $1" "$5" "$6}' > bfast.accuracy.txt
+# cat bwa.eval.accuracy.txt | grep -v "0 / 0" | awk '{print $1" "$5" "$6}' > bwa.accuracy.txt
+# cat novo.eval.accuracy.txt | grep -v "0 / 0" | awk '{print $1" "$5" "$6}' > novo.accuracy.txt
+# R CMD BATCH "--vanilla --args in.file='data_file'" < R_code
 #
-pdf(file='mapping.dist.pdf', height=5, width=9)
-par(mfrow=c(1,1))
-colors <- c("red", "black", "green")
-tools <- c("BFAST", "BWA", "NOVOALIGN")
-l_type <- "l"
+colors <- c("blue", "green")
+what   <- c("mapped", "correctly mapped")
+pdf(file='mapping.dist.pdf', height=10, width=12)
+par(mfrow=c(3,1))
 
-args=(commandArgs(TRUE));
-for(i in 1:length(args)){
-  eval(parse(text=args[[i]]));
-}
+l <- scan("bfast.accuracy.txt", what=list(mapq=0, ok=0, mapped=0), skip=0)
+b <- rbind(l$ok, l$mapped)
+barplot(b, beside = TRUE, names.arg = rev(l$mapq), col=colors, main="BFAST MAPQ distribution")
 
-# Load data 
-#d <- scan(in.file, what=list(mapq=0, bfast_ok=0, bfast_mapped=0, bwa_ok=0, bwa_mapped=0, novo_ok=0, novo_mapped=0, total=0), skip=1)
-d <- read.table(in.file, header=T)
-d <- as.matrix(d)
+l <- scan("bwa.accuracy.txt", what=list(mapq=0, ok=0, mapped=0), skip=0)
+b <- rbind(l$ok, l$mapped)
+barplot(b, beside = TRUE, names.arg = rev(l$mapq), col=colors, main="BWA MAPQ distribution")
 
-#barplot(as.matrix(autos_data), main="Mapping Dist", ylab= "Alignments", beside=TRUE, col=rainbow(6))
-barplot(c(d$mapq, OK_bwa.data.accuracy.txt), main="Mapping Dist", ylab= "Alignments", beside=TRUE, col=rainbow(2))
+l <- scan("novo.accuracy.txt", what=list(mapq=0, ok=0, mapped=0), skip=0)
+b <- rbind(l$ok, l$mapped)
+barplot(b, beside = TRUE, names.arg = rev(l$mapq), col=colors, main="NOVOALIGN_CS MAPQ distribution")
