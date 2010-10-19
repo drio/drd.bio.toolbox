@@ -1,16 +1,16 @@
 #
-# R CMD BATCH "--vanilla --args in.file='data_file'" < R_code
+# R CMD BATCH "--vanilla --args in.file='data_file' in.o_file='f_name'" < R_code
 #
-pdf(file='roc.accuracy.pdf', height=8, width=6)
-par(mfrow=c(1,1))
-colors <- c("red", "black", "green")
-tools <- c("BFAST", "BWA", "NOVOALIGN")
-l_type <- "l"
-
 args=(commandArgs(TRUE));
 for(i in 1:length(args)){
   eval(parse(text=args[[i]]));
 }
+
+pdf(file=in.o_file, height=9, width=5)
+par(mfrow=c(1,1))
+colors <- c("green", "red", "black")
+tools <- c("BFAST", "BWA", "NOVOALIGN")
+l_type <- "l"
 
 # Load data 
 d <- scan(in.file, what=list(mapq=0, bfast_ok=0, bfast_mapped=0, bwa_ok=0, bwa_mapped=0, novo_ok=0, novo_mapped=0, total=0), skip=1)
