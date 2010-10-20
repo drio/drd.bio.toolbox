@@ -34,20 +34,20 @@ BFAST
 
 Pipeline 1: Generation of ROC curves to test performance of aligners with simulated data (CS)
 
-  0.  bash/*.indexes.sh              : Generate indexes for your aligner of choice.
-  1.  bash/calculate_coverage.sh     : Find out how many reads you need to simulated your coverage.
-  2.  bash/simulate_reads.sh         : Simulated reads for different aligners
-  3.  bash/split_reads.sh            : Split reads 
-  4.  bash/align_with_*.sh           : Align with your aligner of choice.
-  5.  ruby/merge_this.rb             : Merge the generated SAMs (generate BAM)
-  6.  bash/bam_sort_dups.sh          : Sort and mark dups. 
-  7.  dwgsim_eval                    : Evaluate the quality of the alignments.
-  8.  ruby/gen_accuracy_plot_data.rb : Prepare dwgsim_eval data for plotting.
-  9.  bash/pileup.this.sh            : Generate pileup from BAM.
-  10. dwgsim_pileup_eval.pl          : Evaluate the snp calls (pileup). 
-  11. bash/gen_eval_data_for_plot.sh : Prepare dwgsim_eval data output for plotting.
-  12. bash/run_R_roc_accuracy.sh     : Generate ROC curve for accuracy.
-  13. bash/run_R_roc_snps.sh         : Generate ROC curves for SNP/indel detection.
+  0.  bash/*.indexes.sh                : Generate indexes for your aligner of choice.
+  1.  bash/calculate_coverage.sh       : Find out how many reads you need to simulated your coverage.
+  2.  bash/simulate_reads.sh           : Simulated reads for different aligners
+  3.  bash/split_reads.sh              : Split reads 
+  4.  bash/align_with_*.sh             : Align with your aligner of choice.
+  5.  ruby/merge_this.rb               : Merge the generated SAMs (generate BAM)
+  6.  bash/bam_sort_dups.sh            : Sort and mark dups. 
+  7.  dwgsim_eval                      : Evaluate the quality of the alignments. 
+                                         (NOTE: remember -b for bwa)
+  8.  ruby/gen_accuracy_plot_data.rb   : Prepare dwgsim_eval data for plotting.
+  9.  bash/pileup.this.sh              : Generate pileup from BAM.
+  10. bash/gen_eval_pileup_for_plot.sh : Eval pileup and prepare the output for plotting.
+  11. bash/run_R_roc_accuracy.sh       : Generate ROC curve for accuracy.
+  12. bash/run_R_roc_snps.sh           : Generate ROC curves for SNP/indel detection.
 
 EOF
 

@@ -9,7 +9,7 @@ usage()
 Usage:
   `basename $0` <pileup_file> <dwgsim_true_snps> <fast_file_ref_genome>
 Example:
-$ for f in *.final; do  gen_eval_data_for_plot.sh  \$f ../reads/true.snps.txt /data/next_gen_1/drio_scratch/macaque/genomes/macaque_chr17.fa; don
+$ for f in *.pileup; do  gen_eval_pileup_for_plot.sh  \$f ../reads/true.snps.txt /data/next_gen_1/drio_scratch/macaque/genomes/macaque_chr17.fa; done
 EOF
   exit 1
 }

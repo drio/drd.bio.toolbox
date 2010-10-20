@@ -10,7 +10,7 @@ Usage:
 
 Examples:
 $ run_R_roc_accuracy.sh all.accuracy.txt roc.accuracy.pdf
-$ for i in snps inss dels; do w="\$i" && run_R_roc_snps.sh bwa*.\$w bf*.\$w novo*.\$w  SNPs roc.\$w.pdf; done  
+$ for i in snps inss dels; do run_R_roc_snps.sh bwa*.\$i bf*.\$i novo*.\$i \$i  roc.\$i.pdf; done
 EOF
 }
 

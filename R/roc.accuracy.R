@@ -6,7 +6,7 @@ for(i in 1:length(args)){
   eval(parse(text=args[[i]]));
 }
 
-pdf(file=in.o_file, height=9, width=5)
+pdf(file=in.o_file, height=8, width=5)
 par(mfrow=c(1,1))
 colors <- c("green", "red", "black")
 tools <- c("BFAST", "BWA", "NOVOALIGN")
