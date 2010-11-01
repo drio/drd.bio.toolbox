@@ -32,7 +32,7 @@ $ruby -ne 'BEGIN{@t=0}; @t = @t + $_.chomp.size unless $_ =~ /^>/; END{puts @t.t
 echo "Genome size = $genome_size bp"
 
 [ $n_ends == 1 ] && rl=$rl_1 || rl=`echo "$rl_1+$rl_2" | bc`
-for i in 1 2 5 10 15 20 25 30 35 40 45 50
+for i in 1 2 4 5 10 15 20 25 30 35 40 45 50
 do
   n_rs=`echo "($genome_size)/($rl+($n_ends-1)) * $i" | bc`
   n_reads_per_split=`echo "$n_rs / $reads_per_split" | bc`
