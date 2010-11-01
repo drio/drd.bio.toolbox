@@ -15,9 +15,9 @@ cat <<-EOF
 $samtools pileup -vc -f $2 $1 > $1.pileup
 
 # 2. Filter for high coverage
-$samtools_perl varFilter -D100 $1.pileup > $1.pileup.filter
+$samtools_perl varFilter $1.pileup > $1.pileup.filter
 
 # 3. Only report Substitutions and Indels based on a quality threshold
-# 75 is the quality threshold for indels and 50 for substitutions
-#awk '(\$3=="*"&&\$6>=75)||(\$3!="*"&&\$6>=50)' $1.pileup.filter > $1.pileup.filter.final
+# 75 is the quality threshold for indels and 20 for substitutions
+awk '(\$3=="*"&&\$6>=75)||(\$3!="*"&&\$6>=20)' $1.pileup.filter > $1.pileup.filter.final
 EOF
