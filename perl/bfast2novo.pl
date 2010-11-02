@@ -116,7 +116,8 @@ sub read_fastq {
 	}
 	chomp($name); chomp($seq); chomp($comment); chomp($qual);
 	my $read = qq/$name\n$seq\n$comment\n$qual\n/;
-	if($name =~ m/^@(\d+)_(\d+)_(\d+)/) {
+	#if($name =~ m/^@(\d+)_(\d+)_(\d+)/) {
+	if($name =~ m/^@\D+(\d+)_(\d+)_(\d+)/) {
 		my $key = sprintf("%.4d_%.4d_%.4d", $1, $2, $3); # this line could be improved on 64-bit machines
 		return ($key, $read);
 	}
