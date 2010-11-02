@@ -6,7 +6,7 @@ set -e
 source "`dirname ${BASH_SOURCE[0]}`/common.sh"
 
 ff=$1
-bn_ff=`basename $ff`
+[ ".$ff" != "." ] && bn_ff=`basename $ff`
 
 cat <<-EOF
 #
