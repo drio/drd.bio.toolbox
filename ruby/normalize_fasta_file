@@ -13,7 +13,7 @@ Help.error "fasta file not found." unless File.exists?(ff_name)
 
 # Main
 #
-l_size = 8
+l_size = 80
 i      = 0
 cn     = nil # contig name
 n_chr  = 0   # Number of characters in contig
