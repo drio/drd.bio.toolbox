@@ -22,8 +22,6 @@ $samtools view -bF 1024 $1 | $samtools pileup -Q20 -vc -f $2 - > $1.pileup
 # ---------------------------------------------------------------------------------
 # chr17   93      t       A       0       6       60      2       .a      "E
 # chr17   212     a       N       0       0       0       1       ^#.-1G  !
-# chr17   703     g       C       3       22      60      2       cC      ;;
-# chr17   2330    g       C       0       6       60      3       Cc.     E4"
 # chr17   3018    a       G       6       41      60      5       .$ggG.  .9;;"
 #
 # nr_a# : number of reads supporting allele #
@@ -35,6 +33,13 @@ $samtools view -bF 1024 $1 | $samtools pileup -Q20 -vc -f $2 - > $1.pileup
 # Filter string:
 #  0 1 2 3 4 5 6 7 8 9
 # "U Q d D W G g s i X"
+# 
+# push(@staging, [$score, $flt, $len, @t]);
+#
+# w SNP within INT bp around a gap to be filtered [10]
+# l window size for filtering adjacent gaps       [30]
+# W window size for filtering dense SNPs          [10]
+# so, max_dist will be 30 under default values.           
 #
 # Options: -Q INT    minimum RMS mapping quality for SNPs [25]
 #          -q INT    minimum RMS mapping quality for gaps [10]
@@ -43,6 +48,8 @@ $samtools view -bF 1024 $1 | $samtools pileup -Q20 -vc -f $2 - > $1.pileup
 #          -S INT    minimum SNP quality []
 #          -i INT    minimum indel quality []
 # 
+#          If you have a snp close to a indel (window: -w INT), filter it out if 
+#          the indel has low quality.
 #          -G INT    min indel score for nearby SNP filtering [25]
 #          -w INT    SNP within INT bp around a gap to be filtered [10]
 # 

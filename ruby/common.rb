@@ -14,3 +14,23 @@ module Common
     h
   end
 end
+
+module Help
+  @usage_text = ""
+
+  def self.set_usage_text(ut)
+    @usage_text = ut
+  end
+
+  def self.error(msg)
+    puts "ERROR: #{msg}"
+    usage
+    exit 1
+  end
+
+  def self.usage
+    puts @usage_text
+  end
+end
+
+

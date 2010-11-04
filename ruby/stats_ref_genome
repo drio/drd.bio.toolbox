@@ -1,0 +1,29 @@
+#!/bin/env ruby
+#
+# Displays information about a reference genome (fasta file)
+# contig_name : number_characters : number of Ns
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+Help.set_usage_text "Usage: #{File.basename(__FILE__)} <fasta_file_ref_genome>"
+
+Help.error "Invalid number of arguments." if ARGV.size != 1 
+ff_name = ARGV[0]
+Help.error "fasta file not found." unless File.exists?(ff_name)
+
+# Main
+#
+hc     = Hash.new(0)  # Hash contigs (name, size)
+cn     = nil # contig name
+n_chr  = 0   # Number of characters in contig
+File.open(ff_name).each_line do |l|
+  if l =~ /^>/ and l[/^>(.+)$/] # header
+      puts "" if cn
+      cn = $1.chomp
+      hc[cn] = 0
+  else # contig sequence
+    hc[cn] = hc[cn] + l.chomp.size
+    printf("\r%s : %d", cn, hc[cn]) if hc[cn] % 500000 == 0
+  end 
+end

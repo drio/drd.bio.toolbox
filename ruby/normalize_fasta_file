@@ -1,0 +1,36 @@
+#!/bin/env ruby
+#
+# Normalize fasta file (chr 80)
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+Help.set_usage_text "Usage: #{File.basename(__FILE__)} <fasta_file_ref_genome>"
+
+Help.error "Invalid number of arguments." if ARGV.size != 1 
+ff_name = ARGV[0]
+Help.error "fasta file not found." unless File.exists?(ff_name)
+
+# Main
+#
+l_size = 8
+i      = 0
+cn     = nil # contig name
+n_chr  = 0   # Number of characters in contig
+File.open(ff_name).each_line do |l|
+  if l =~ /^>/ and l[/^>(.+)$/] # header
+    puts "" unless cn.nil? or i % l_size == 0
+    i = 0
+    cn = $1
+    puts ">#{cn}"
+  else # contig sequence
+    l.chomp.each_byte do |b|
+      c = b.chr
+      i = i + 1
+      printf "%s", c
+      printf "\n" if i % l_size == 0
+      $stderr.printf "\r#{cn} : #{i}" if i % 100000 == 0
+    end
+    $stderr.printf "\r#{cn} : #{i}\n"
+  end
+end
