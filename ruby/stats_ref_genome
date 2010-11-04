@@ -19,9 +19,9 @@ cn     = nil # contig name
 n_chr  = 0   # Number of characters in contig
 File.open(ff_name).each_line do |l|
   if l =~ /^>/ and l[/^>(.+)$/] # header
-      puts "" if cn
-      cn = $1.chomp
-      hc[cn] = 0
+    puts "" if cn
+    cn = $1.chomp
+    hc[cn] = 0
   else # contig sequence
     hc[cn] = hc[cn] + l.chomp.size
     printf("\r%s : %d", cn, hc[cn]) if hc[cn] % 500000 == 0
