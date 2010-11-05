@@ -1,0 +1,3 @@
+DRD_BTB_PATH=${BASH_SOURCE[0]}
+export PATH="$DRD_BTB_PATH/bash:$PATH"
+export PATH="$DRD_BTB_PATH/ruby:$PATH"
