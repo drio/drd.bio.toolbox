@@ -6,9 +6,9 @@ require File.expand_path(File.dirname(__FILE__)) + "/common"
 
 include Help
 include Common
-Help.set_usage_text "Usage: cat <pileup_file> | #{File.basename(__FILE__)}"
+Help.set_usage_text "Usage: cat <pileup_file> | #{File.basename(__FILE__)} [-p]; -p: for plotting"
 
-Help.error "Invalid number of arguments." if ARGV.size != 0
+Help.error "Invalid number of arguments." if ARGV.size > 1
 Help.error "No data in stdin." unless data_in_stdin?
 
 # Main
@@ -28,5 +28,10 @@ STDIN.each_line do |l|
   end
 end
 $stderr.printf("\r%d\n", i)
-printf "%-13s: %d\n%-13s: %d\n%-13s: %d\n%-13s: %d",
-       "substitutions", a[0], "insertions", a[1], "delitions", a[2], "total", i
+
+if ARGV[0] == '-p'
+  puts "#{a[0]}:#{a[1]}:#{a[2]}:#{i}"
+else
+  printf "%-13s: %d\n%-13s: %d\n%-13s: %d\n%-13s: %d",
+         "substitutions", a[0], "insertions", a[1], "delitions", a[2], "total", i
+end
