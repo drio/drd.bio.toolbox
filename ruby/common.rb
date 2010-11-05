@@ -1,7 +1,7 @@
 #
 module Common
   # Load the common.sh data in a hash
-  def self.load_common
+  def load_common
     h={}
     common_file = File.dirname(__FILE__) + "/../bash/common.sh"
     File.open(common_file).each_line do |l| 
@@ -12,6 +12,12 @@ module Common
       end
     end 
     h
+  end
+
+  # check for data in STDIN
+  def data_in_stdin?
+    require 'fcntl'
+    STDIN.fcntl(Fcntl::F_GETFL, 0) == 0 ? true : false
   end
 end
 

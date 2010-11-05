@@ -1,0 +1,32 @@
+#!/bin/env ruby
+#
+# Displays stats from a pileup file
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+include Common
+Help.set_usage_text "Usage: cat <pileup_file> | #{File.basename(__FILE__)}"
+
+Help.error "Invalid number of arguments." if ARGV.size != 0
+Help.error "No data in stdin." unless data_in_stdin?
+
+# Main
+#
+i = 0
+a = [ 0, 0, 0 ]
+STDIN.each_line do |l|
+  i+=1
+  $stderr.printf("\r%d", i) if i % 100000 == 0
+  case l.split[3]
+    when /\+/
+      a[1]+=1
+    when /-/
+      a[2]+=1
+    else
+      a[0]+=1
+  end
+end
+$stderr.printf("\r%d\n", i)
+printf "%-13s: %d\n%-13s: %d\n%-13s: %d\n%-13s: %d",
+       "substitutions", a[0], "insertions", a[1], "delitions", a[2], "total", i
