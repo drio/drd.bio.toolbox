@@ -3,6 +3,7 @@
 # Merges bams
 #
 require File.expand_path(File.dirname(__FILE__)) + "/common"
+include Common
 
 def usage
   puts <<END
