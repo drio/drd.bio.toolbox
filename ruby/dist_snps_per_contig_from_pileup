@@ -1,0 +1,41 @@
+#!/bin/env ruby
+#
+# Displays stats from a pileup file
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+include Common
+Help.set_usage_text "Usage: cat <pileup_file> | #{File.basename(__FILE__)}"
+
+Help.error "Invalid number of arguments." if ARGV.size != 0
+Help.error "No data in stdin." unless data_in_stdin?
+
+# Main
+#
+# Pilup format:
+# scaffold_0      3655    C       T       52      150     58      31      .$tttttt,ttttttttttttttttttttt,,        3GEA<H4?>9:?:E:8J>7;>@?7G7B7C.A
+# scaffold_0      4119    *       -CC/*   569     647     54      25      -CC     *       8       17      0       0       0
+# scaffold_0      6094    *       */+GAG  87      87      43      9       *       +GAG    7       1       1       0       0
+#
+# Extract mutation info per each contig
+i = 0
+h = {}
+STDIN.each_line do |l|
+  i+=1
+  $stderr.printf("\r%d", i) if i % 100000 == 0
+  a_line = l.split
+  contig = a_line[0]
+  h[contig] = [0, 0, 0] unless h[contig]
+  case a_line[3] # What type of mutation are we dealing with?
+    when /\+/
+      h[contig][0]+=1
+    when /-/
+      h[contig][1]+=1
+    else
+      h[contig][2]+=1
+  end
+end
+$stderr.printf("\r%d\n", i)
+
+h.each {|k, a| printf "%s %d %d %d\n", k, a[0], a[1], a[2] }

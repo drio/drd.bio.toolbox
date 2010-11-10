@@ -27,4 +27,4 @@ File.open(ff_name).each_line do |l|
   end 
 end
 
-hc.each {|k, v| puts "#{k}: #{v}" }
+hc.each {|k, v| puts "#{k} #{v}" }

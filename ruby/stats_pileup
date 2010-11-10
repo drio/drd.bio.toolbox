@@ -33,5 +33,5 @@ if ARGV[0] == '-p'
   puts "#{a[0]}:#{a[1]}:#{a[2]}:#{i}"
 else
   printf "%-13s: %d\n%-13s: %d\n%-13s: %d\n%-13s: %d",
-         "substitutions", a[0], "insertions", a[1], "delitions", a[2], "total", i
+         "snps", a[0], "inss", a[1], "dels", a[2], "total", i
 end

@@ -1,0 +1,71 @@
+#!/bin/env ruby
+#
+# Generates data to plot a graph (identity plot) 
+# with the amount of variation in a set of windows
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+usage_text = Help.set_usage_text <<END
+Usage: #{File.basename(__FILE__)} <stats_ref_genome> <pileup_file> <window_size>
+
+stats_ref_genome : text file (column1: contig name column2: size)
+pileup_file      : pileup from samtools
+window_size      : window size to use when looking for variation
+
+Output format (stdout):
+contig_name window_number #subs #inss #dels
+END
+
+Help.error "Invalid number of arguments." if ARGV.size != 3 
+stats_name = ARGV[0]
+pu_name    = ARGV[1]
+w_size     = ARGV[2]
+Help.error "stats file not found." unless File.exists?(stats_name)
+Help.error "pileup file not found." unless File.exists?(pu_name)
+Help.error "windows size parameter is incorrect." unless w_size =~ /^\d+$/
+
+c_sizes = {}
+File.open(stats_name).each_line do |l| 
+  c_name, size = l.split
+  c_sizes[c_name] = size.to_i
+end
+
+# Gather contig sizes and create windows
+w = {} # Store the amount of variation per window
+File.open(stats_name).each_line do |l| # each contig (and its size)
+  c_name, c_size = l.split
+  n_windows = c_size.to_i / w_size.to_i
+  w[c_name] = { :subs => Array.new(n_windows, 0), 
+                :inss => Array.new(n_windows, 0), 
+                :dels => Array.new(n_windows, 0) }
+  $stderr.printf "\rPreparing windows: #{c_name}"
+end
+$stderr.puts ""
+
+# Increase the number of variation (per window) as we see then in the pileup
+File.open(pu_name).each_line do |l|
+  contig, pos, ref, var = l.split[0,4]
+  v_type = case var
+    when /\+/ 
+      :inss
+    when /-/ 
+      :dels
+    else 
+      :subs
+  end
+  window_number = (pos.to_i / w_size.to_i) - 1
+  w[contig][v_type][window_number] += 1
+  $stderr.printf "\rLooping over pileup: #{contig} #{pos}" if window_number % 10000 == 0
+end
+$stderr.puts ""
+
+# Dump the results
+$stderr.puts "Dumping results to stdout"
+w.each do |c_name, v|
+  i = 0
+  while i < v[:subs].size
+    printf "%s %d %d %d %d\n", c_name, i, v[:subs][i], v[:inss][i], v[:dels][i]
+    i+=1
+  end
+end
