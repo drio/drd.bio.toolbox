@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+drd_btb_dir="`dirname ${BASH_SOURCE[0]}`"
 
 cat<<EOF
 BWA
@@ -49,6 +50,13 @@ Pipeline 1: Generation of ROC curves to test performance of aligners with simula
   11. bash/run_R_roc_accuracy.sh       : Generate ROC curve for accuracy.
   12. bash/run_R_roc_snps.sh           : Generate ROC curves for SNP/indel detection.
 
+R
+  # Identity plot:
+  $ cat ./AWG_NLEU.00_000pA/AWG_NLEU.00_000pA.merged.bam.pileup.var_filter.qual_threshold | 
+    awk '/^scaffold_[0]\t[0-9]+/' | 
+    identity_plot_data_from_pileup /data/rogers2/drio_scratch/genomes/Nleu1.0.fixed.fa.stats 100000 |
+    awk '{print \$1" "\$4" "\$5" "\$6}' |
+    R CMD BATCH "--vanilla --slave --args in.o_file='i.pdf' in.title='identity'" $drd_btb_dir/../R/identity.plot.R 
 EOF
 
 echo "---------"
