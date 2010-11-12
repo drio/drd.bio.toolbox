@@ -21,7 +21,7 @@ STDIN.each_line do |l|
   if l =~ />(.+)$/
     $stderr.printf "\r#{l.chomp}"
     current_file.close unless current_file.nil?
-    current_file = File.open($1, "w")
+    current_file = File.open("#{$1}.fasta", "w")
   end
   current_file.puts l
 end
