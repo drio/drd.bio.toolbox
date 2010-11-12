@@ -1,0 +1,28 @@
+#!/bin/env ruby
+#
+# Splits contigs of a file by chrm
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+include Common
+include Help
+
+# Set up help text.
+#
+usage_text = Help.set_usage_text <<END
+Usage: cat ref_file | #{File.basename(__FILE__)}
+END
+
+# Check arguments
+#
+Help.error "No data in stdin." unless data_in_stdin?
+
+current_file = nil
+STDIN.each_line do |l|
+  if l =~ />(.+)$/
+    $stderr.printf "\r#{l.chomp}"
+    current_file.close unless current_file.nil?
+    current_file = File.open($1, "w")
+  end
+  current_file.puts l
+end
+$stderr.printf ""

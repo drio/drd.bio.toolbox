@@ -11,7 +11,7 @@ for(i in 1:length(args)){
   eval(parse(text=args[[i]]));
 }
 
-pdf(file=in.o_file, height=4, width=12)
+pdf(file=in.o_file, height=3.5, width=14)
 #bitmap(file=in.o_file, height=5, width=16, pointsize=14)
 par(mfrow=c(1,1))
 plotchar <- c(0,0,0)
