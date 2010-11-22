@@ -27,8 +27,9 @@ title=$4
 [ ".$title" == "." ] && error "title not provided" && usage
 `which gnuplot &>/dev/null` || (error "gnuplot not found" && usage)
 
+#(echo "set t png"; echo "set logscale y"; \
 cat <<-EOF
-(echo "set t png"; echo "set logscale y"; \
+(echo "set t png"; \
 echo plot \"-\" using 2:1 title \"$title\"; \
 samtools view -f3 $bam | \
 awk '{if (\$9 < $isize_w && \$9 > 10) print \$9}' | \
