@@ -6,7 +6,7 @@ for(i in 1:length(args)){
   eval(parse(text=args[[i]]));
 }
 
-data <- read.table(file="/dev/stdin",sep=" ",header=F)
+data <- read.table(file="stdin",sep=" ",header=F)
 colnames(data) <- c("pos", "coverage")
 #data <- scan("/dev/stdin", what=list(pos=0, coverage=0), skip=0)
 depth <- mean(data[,"coverage"])
@@ -19,7 +19,9 @@ rangeto <- length(data[,"pos"])
 data.smoothed<-runmed(data[,"coverage"],k=window)
 #pdf(file=in.o_file, height=5, width=14) 
 bitmap(file=in.o_file, height=5, width=16, pointsize=14)
-plot(x=data[rangefrom:rangeto,"pos"], y=data.smoothed[rangefrom:rangeto], pch=".", cex=1,xlab="bp position",ylab="depth",type="l", col="red")
+#plot(x=data[rangefrom:rangeto,"pos"], y=data.smoothed[rangefrom:rangeto], pch=".", cex=1,xlab="bp position",ylab="depth",type="p", ylim=c(0,20), col="red")
+plot(x=data[rangefrom:rangeto,"pos"], y=data.smoothed[rangefrom:rangeto], xlab="bp position", ylab="depth", type="p", col="red", pch=".", cex=.2, ylim=c(0,20))
+#axis(2, las=1, at=seq(0,50,5))
 title(in.title)
 dev.off()
 print(data[rangefrom:rangeto, "pos"])

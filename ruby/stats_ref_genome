@@ -27,4 +27,10 @@ File.open(ff_name).each_line do |l|
   end 
 end
 
-hc.each {|k, v| puts "#{k} #{v}" }
+total_bp = hc.values.inject(0) {|sum, i| sum + i.to_i }
+prev_p   = 0
+hc.each do |k, v| 
+  p = (v.to_f * 100)/total_bp.to_f
+  printf "%s %d %.2f %.2f %d\n", k, v, p, p + prev_p, total_bp
+  prev_p += p
+end

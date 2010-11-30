@@ -39,4 +39,32 @@ module Help
   end
 end
 
+module Statistics
+  def variance(population)                                                                                                                                                                                                                      
+    n = 0                                                                                                                                                                                                                                       
+    mean = 0.0                                                                                                                                                                                                                                  
+    s = 0.0                                                                                                                                                                                                                                     
+    population.each { |x|                                                                                                                                                                                                                       
+      n = n + 1                                                                                                                                                                                                                                 
+      delta = x - mean                                                                                                                                                                                                                          
+      mean = mean + (delta / n)                                                                                                                                                                                                                 
+      s = s + delta * (x - mean)                                                                                                                                                                                                                
+    }                                                                                                                                                                                                                                           
+    # if you want to calculate std deviation                                                                                                                                                                                                    
+    # of a sample change this to "s / (n-1)"                                                                                                                                                                                                    
+    return s / n                                                                                                                                                                                                                                
+  end                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                
+  # calculate the standard deviation of a population                                                                                                                                                                                            
+  # accepts: an array, the population                                                                                                                                                                                                           
+  # returns: the standard deviation                                                                                                                                                                                                             
+  def standard_deviation(population)                                                                                                                                                                                                            
+    Math.sqrt(variance(population))                                                                                                                                                                                                             
+  end              
+
+  def mean(a)                                                                                                                                                                                                                                   
+    sum  = a.inject(0) {|r,i| r.to_i + i.to_i }                                                                                                                                                                                                 
+    sum.to_f / a.size.to_f                                                                                                                                                                                                                      
+  end 
+end
 

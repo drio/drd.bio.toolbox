@@ -1,0 +1,43 @@
+#!/bin/env ruby
+#
+# Finds coverage using windows
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+include Common
+include Statistics
+usage=<<-EOF
+Usage: #{File.basename(__FILE__)} <window_size>
+
+Example: 
+
+$ cat i.txt | awk '{print $2" "$8 }' | sort -k1,1n  | uniq |awk '{print $2}'| calc_coverage 10
+
+NOTICE: i.txt was generated using samtools pileup showing coordinates where there are snps. 
+        That is why we do all that sorting and uniquing prior to compute the results.
+EOF
+Help.set_usage_text usage
+
+Help.error "Invalid number of arguments." if ARGV.size != 1 
+Help.error "No data in stdin." unless Common.data_in_stdin?                                                                                                                                                                                          
+w_size = ARGV[0].to_i
+
+# Main
+#
+i=1
+data=[]
+t=[]
+n=0
+$stdin.each_line do |l|
+  if i % w_size == 0
+    data << { :mean => Statistics.mean(t), :sd => Statistics.standard_deviation(t) }
+    t=[]
+    n=0 
+  end                                  
+  t << l.to_i
+  n+=1 
+  i+=1
+end                                
+                                  
+data.each_with_index {|v,i| printf "%d %.2f %.2f\n", i, v[:mean], v[:sd]}

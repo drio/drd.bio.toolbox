@@ -6,7 +6,7 @@ usage()
 {
   cat<<-EOF
 Usage:
-  script <output.pdf> <window_size> <title> <pileup_file>
+  script <output.png> <window_size> <title> <pileup_file>
 EOF
 }
 
