@@ -12,10 +12,9 @@ Usage: #{File.basename(__FILE__)} <window_size>
 
 Example: 
 
-$ cat i.txt | awk '{print $2" "$8 }' | sort -k1,1n  | uniq |awk '{print $2}'| calc_coverage 10
+$ time samtools pileup my.sorted.merged.bam | awk '{print $4}' | calc_coverage_stats 500 | run_R_coverage_plot.sh output.png title
 
-NOTICE: i.txt was generated using samtools pileup showing coordinates where there are snps. 
-        That is why we do all that sorting and uniquing prior to compute the results.
+NOTICE: your bam is sorted by coordinate. If not, you'll have to sort
 EOF
 Help.set_usage_text usage
 
@@ -31,13 +30,13 @@ t=[]
 n=0
 $stdin.each_line do |l|
   if i % w_size == 0
-    data << { :mean => Statistics.mean(t), :sd => Statistics.standard_deviation(t) }
+    data << [ Statistics.mean(t), Statistics.standard_deviation(t) ]
     t=[]
-    n=0 
+    n=0
   end                                  
   t << l.to_i
   n+=1 
   i+=1
 end                                
                                   
-data.each_with_index {|v,i| printf "%d %.2f %.2f\n", i, v[:mean], v[:sd]}
+data.each_with_index {|v,i| printf "%d %.2f %.2f\n", i, v[0], v[1]}
