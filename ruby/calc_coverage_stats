@@ -1,6 +1,10 @@
 #!/bin/env ruby
 #
-# Finds coverage using windows
+# Finds coverage using samtools pileup input.
+# Notice samtools pileup only reports ref positions where at least
+# one read covers it. We work out of that. That may not be what
+# you want. You may want to have a real per base coverage instead
+# of using binning.
 #
 require File.expand_path(File.dirname(__FILE__)) + "/common"
 
@@ -14,7 +18,7 @@ Example:
 
 $ time samtools pileup my.sorted.merged.bam | awk '{print $4}' | calc_coverage_stats 500 | run_R_coverage_plot.sh output.png title
 
-NOTICE: your bam is sorted by coordinate. If not, you'll have to sort
+NOTICE: I am assuming your bam is sorted by coordinate.
 EOF
 Help.set_usage_text usage
 

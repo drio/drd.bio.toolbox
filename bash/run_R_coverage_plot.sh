@@ -2,7 +2,10 @@
 #
 #set -e 
 
-#script <output.png> <window_size> <title> <pileup_file>
+# script <output.png> <window_size> <title> <pileup_file>
+# 
+# Notice it relies on ruby/calc_coverage_stats
+#
 usage()
 {
   cat<<-EOF
@@ -10,8 +13,7 @@ Usage:
   script <output.png> <title>
 
 Example:
-$ cat i.txt | awk '{print $2" "$8 }' | uniq |awk '{print $2}'| calc_coverage_stats 50 | run_R_coverage_plot.sh cov.png title_here
-$ samtools pileup my.bam | awk '{print $2" "$8 }' | uniq |awk '{print $2}'| calc_coverage_stats 50 | run_R_coverage_plot.sh cov.png title_here
+  $ samtools pileup my.sorted.merged.bam | awk '{print $4}' | calc_coverage_stats 500 | run_R_coverage_plot.sh output.png title
 EOF
 }
 
