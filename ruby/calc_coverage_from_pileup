@@ -56,7 +56,7 @@ def process_pileup
     # There is coverage in that region, use it.
     @data[gp] = c.to_i
     gp += 1
-    $stderr.printf "\r%s %d", cs, gp if gp % 100000 == 0
+    $stderr.printf "\r%s %d", cs, p if gp % 100000 == 0
   end
   $stderr.puts ""
 end
