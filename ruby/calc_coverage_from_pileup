@@ -50,13 +50,13 @@ def process_pu_and_dump
     p = p.to_i
     if s != cs # We are in another contig/scaffold
       while @genome[cs] && gp < @genome[cs] # We may still have a region without coverage
-        gp += 1; printf "%s %s\n", gp, 0
+        printf "%s %s\n", gp, 0; gp += 1
       end
       cs     = s
       offset = gp - 1
     end
     while gp < (p + offset) # While I don't have coverage, set to zero
-      gp += 1; printf "%s %s\n", gp, 0
+      printf "%s %s\n", gp, 0; gp += 1
     end
     # There is coverage in that region, use it.
     printf "%s %s\n", gp, c
@@ -146,7 +146,7 @@ else
       @t_stdin.close
     end
 
-    def test_script
+    def xx_test_pileup
       @g_size = 21
       @data = {}
       gather_genome_stats
@@ -160,6 +160,12 @@ else
       print_stats gather_stats
       print_coverage_for_plotting
     end
+
+    def test_pileup_and_dump
+      gather_genome_stats
+      process_pu_and_dump
+    end
+
   end
 end
 
