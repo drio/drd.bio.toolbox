@@ -39,6 +39,33 @@ def gather_genome_stats
   end
 end
 
+# Same as process_pileup, but does not stores anything
+# in the array, it dumps directly.
+def process_pu_and_dump
+  log "Processing pileup ..."
+  cs     = "" # current scaffold
+  gp     = 1  # global position
+  offset = 0  # pileup uses positions relative to the scaffolds.
+  @my_stdin.each_line do |l_stdin|
+    s, p, c = l_stdin.split # scaffold name, position, coverage
+    p = p.to_i
+    if s != cs # We are in another contig/scaffold
+      while @genome[cs] && gp < @genome[cs] # We may still have a region without coverage
+        gp += 1; printf "%s %s\n", gp, 0
+      end
+      cs     = s
+      offset = gp - 1
+    end
+    while gp < (p + offset) # While I don't have coverage, set to zero
+      gp += 1; printf "%s %s\n", gp, 0
+    end
+    # There is coverage in that region, use it.
+    printf "%s %s\n", gp, c
+    gp += 1
+    $stderr.printf "\r%s %d", cs, p if gp % 100000 == 0
+  end
+end
+
 def process_pileup
   log "Processing pileup ..."
   cs     = "" # current scaffold
@@ -93,9 +120,10 @@ if ! $test
   @my_stdin = $stdin 
   @data = []
   gather_genome_stats
-  process_pileup
-  print_stats gather_stats
-  print_coverage_for_plotting
+  #process_pileup
+  process_pu_and_dump
+  #print_stats gather_stats
+  #print_coverage_for_plotting
 else
   require 'test/unit'
   require 'tempfile'
