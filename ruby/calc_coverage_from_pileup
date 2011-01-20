@@ -42,7 +42,6 @@ end
 # Same as process_pileup, but does not stores anything
 # in the array, it dumps directly.
 def process_pu_and_dump
-  log "Processing pileup ..."
   cs     = "" # current scaffold
   gp     = 1  # global position
   offset = 0  # pileup uses positions relative to the scaffolds.
@@ -62,8 +61,10 @@ def process_pu_and_dump
     # There is coverage in that region, use it.
     printf "%s %s\n", gp, c
     gp += 1
-    $stderr.printf "\r%s %d", cs, p if gp % 100000 == 0
+    $stderr.printf "\rProcessing pileup: %2.2f%%", 
+                   (gp*100).to_f/@g_size.to_f if gp % 100000 == 0
   end
+  $stderr.puts ""
 end
 
 def process_pileup
