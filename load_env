@@ -2,3 +2,4 @@ DRD_BTB_PATH=`dirname ${BASH_SOURCE[0]}`
 export PATH="$DRD_BTB_PATH/bash:$PATH"
 export PATH="$DRD_BTB_PATH/ruby:$PATH"
 export PATH="$DRD_BTB_PATH/perl:$PATH"
+export PATH="$DRD_BTB_PATH/R:$PATH"

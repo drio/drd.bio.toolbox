@@ -1,28 +1,16 @@
-## 
-# awk '{print $2" "$4" "$8}' pu.txt | R CMD BATCH "--vanilla --args in.o_file='out.pdf' in.window='50' in.title='XXXXXXXXXXX'" ./cov.R
+#!/usr/bin/env Rscript
+#
+# awk '{print $2" "$4}' pileup | R CMD BATCH out.pdf tittle range.max
 #
 args=(commandArgs(TRUE));
-for(i in 1:length(args)){
-  eval(parse(text=args[[i]]));
-}
 
-data <- read.table(file="stdin",sep=" ",header=F)
-colnames(data) <- c("pos", "coverage")
-#data <- scan("/dev/stdin", what=list(pos=0, coverage=0), skip=0)
-depth <- mean(data[,"coverage"])
-# depth now has the mean (overall)coverage
-# set the bin-size
-window <- in.window
-rangefrom <- 0
-rangeto <- length(data[,"pos"])
-
-data.smoothed<-runmed(data[,"coverage"],k=window)
-#pdf(file=in.o_file, height=5, width=14) 
-bitmap(file=in.o_file, height=5, width=16, pointsize=14)
-#plot(x=data[rangefrom:rangeto,"pos"], y=data.smoothed[rangefrom:rangeto], pch=".", cex=1,xlab="bp position",ylab="depth",type="p", ylim=c(0,20), col="red")
-plot(x=data[rangefrom:rangeto,"pos"], y=data.smoothed[rangefrom:rangeto], xlab="bp position", ylab="depth", type="p", col="red", pch=".", cex=.2, ylim=c(0,20))
-#axis(2, las=1, at=seq(0,50,5))
-title(in.title)
-dev.off()
-print(data[rangefrom:rangeto, "pos"])
-print(data.smoothed[rangefrom:rangeto])
+d <- read.table(file="stdin",sep=" ",header=F)
+colnames(d) <- c("pos", "cov")
+depth <- mean(d[,"cov"])
+rangeto <- length(d[,"pos"])        
+                                    
+#pdf(file=args[1], height=4, width=14)
+bitmap(file=args[1], type="png256", width=14, height=4, units="in", res=300)
+plot(d$pos, d$cov, xlab="bp position", ylab="depth", type="n")
+lines(d$pos, d$cov, col="red")
+title(args[2])

@@ -13,7 +13,7 @@ Usage:
   script <output.png> <title>
 
 Example:
-  $ samtools pileup my.sorted.merged.bam | awk '{print $4}' | calc_coverage_stats 500 | run_R_coverage_plot.sh output.png title
+  $ samtools pileup my.sorted.merged.bam | awk '{print \$4}' | calc_coverage_stats 500 | run_R_coverage_plot.sh output.png title
 EOF
 }
 

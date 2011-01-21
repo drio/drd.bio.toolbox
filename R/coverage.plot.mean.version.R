@@ -9,7 +9,7 @@ for(i in 1:length(args)){
 #pdf(file='./cov.pdf', height=5, width=12)
 #bitmap(file="./cov.png", height=5, width=14)
 #png(file=in.o_file, 8, 3, units="in", res=150)
-bitmap(file=in.o_file, type="png256", width=7, height=2, units="in", res=150)
+bitmap(file=in.o_file, type="png256", width=7, height=2, units="in", res=300)
 #par(mfrow=c(1,1))
 #par(mar=c(11,5,4,2))
 data <- scan(file="stdin", what=list(pos=0, me=0, sd=0), skip=0)
