@@ -1,0 +1,58 @@
+#!/bin/env ruby
+#
+# Reports the percentage of the genome that is covered at different
+# coverage levels
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+#require "profile"
+
+include Help
+include Common
+usage=<<-EOF
+Usage: cat coverage | #{File.basename(__FILE__)} <genome_size> 
+
+Example: 
+
+  $ samtools pileup AWG_NLEU.00_000pA.merged.nodups.q_gt_30.bam | \\
+  awk '{print $1" "$2" "$4}' | \\
+  calc_coverage_from_pileup ../local/assembly_stats.txt 2936035333 | \\
+  stats_from_coverage 2936035333 2>/dev/null > coverage.stats
+
+And if you want to compress the coverage output (makes sense):
+
+  $ samtools pileup AWG_NLEU.00_000pA.merged.nodups.q_gt_30.bam | \\
+  awk '{print $1" "$2" "$4}' | \\
+  calc_coverage_from_pileup ../local/assembly_stats.txt 2936035333 | \\
+  tee >(gzip -c > coverage.gz) |\\
+  stats_from_coverage 2936035333 2>/dev/null > coverage.stats
+
+Notice the tools expects the bam to be sorted by coordinate.
+Also 2936035333 is the size of Gibbon assembly
+EOF
+Help.set_usage_text usage
+
+def gather_stats
+  $stdin.each_line do |l|
+    p , c = l.split.map {|e| e.to_i}
+    @int_cov.each {|k, v| @int_cov[k] += 1 if c >= k}
+    $stderr.printf "\rGathering stats: %2.2f%%", 
+                   (p*100).to_f/@g_size.to_f if p % 10000 == 0
+  end
+  Common.log "\nDone."
+end
+
+def print_stats
+  puts "# header: <col1>% of genome covered at <col2>"
+  @int_cov.each do |k,v|
+    printf "%2.1f %d\n", (v*100).to_f/@g_size.to_f, k 
+  end
+end
+
+# Main
+# 
+@int_cov = {1  => 0, 4 => 0, 8 => 0, 10 => 0, 15 => 0, 20 => 0, 25 => 0, 30 => 0}
+Help.error "No data in stdin." unless Common.data_in_stdin?
+Help.error "Wrong number of parameters." unless ARGV.size == 1
+@g_size = ARGV[0].to_i
+gather_stats
+print_stats

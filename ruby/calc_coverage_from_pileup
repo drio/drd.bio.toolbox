@@ -25,12 +25,6 @@ For testing:
 EOF
 Help.set_usage_text usage
 
-def log(msg, same_line=0, c_return=1)
-  cr = c_return  == 1 ? "\n" : ""
-  sl = same_line == 1 ? "\r" : ""
-  $stderr.printf "#{sl}%s#{cr}", msg
-end
-
 def gather_genome_stats
   @genome = {}
   File.open(@g_file).each_line do |l|
@@ -68,7 +62,7 @@ def process_pu_and_dump
 end
 
 def process_pileup
-  log "Processing pileup ..."
+  Common.log "Processing pileup ..."
   cs     = "" # current scaffold
   gp     = 1  # global position
   offset = 0  # pileup uses positions relative to the scaffolds.
@@ -87,27 +81,6 @@ def process_pileup
     $stderr.printf "\r%s %d", cs, p if gp % 100000 == 0
   end
   $stderr.puts ""
-end
-
-def gather_stats
-  log "Gathering stats ... "
-  int_cov = {1  => 0, 4 => 0, 8 => 0, 10 => 0, 15 => 0, 20 => 0, 25 => 0, 30 => 0}
-  (0..@g_size).each do |p|
-    int_cov.each {|k, v| int_cov[k] += 1 if !@data[p].nil? && @data[p] >= k}
-    $stderr.printf "\r%2.2f%%", (p*100).to_f/@g_size.to_f if p % 10000 == 0
-  end
-  log "\nDone."
-  int_cov
-end
-
-def print_stats(int_cov)
-  int_cov.each do |k,v| 
-    $stderr.printf "%2.2f%% of genome covered at %dx +\n", (v*100).to_f/@g_size.to_f, k 
-  end
-end
-
-def print_coverage_for_plotting
-  (0..@g_size).each {|p| printf "%s %s\n", p, @data[p].nil? ? 0 : @data[p] }
 end
 
 # Main

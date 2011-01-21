@@ -19,6 +19,12 @@ module Common
     require 'fcntl'
     STDIN.fcntl(Fcntl::F_GETFL, 0) == 0 ? true : false
   end
+
+  def log(msg, same_line=0, c_return=1)
+    cr = c_return  == 1 ? "\n" : ""
+    sl = same_line == 1 ? "\r" : ""
+    $stderr.printf "#{sl}%s#{cr}", msg
+  end
 end
 
 module Help
