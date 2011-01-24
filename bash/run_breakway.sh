@@ -56,6 +56,7 @@ usage()
   cat <<-EOF
 usage: `basename $0` options
 
+  -e <seed>  : seed to use for the output files
   -p <path>  : path to breakway
   -b <bam>   : full path do bam file.
   -f <fasta> : full path do ref file.
@@ -64,7 +65,7 @@ usage: `basename $0` options
                SAME (SOLiD), OPPOSITE: Illumina
   -o <order> : 21 12 (see: breakway compendium)
                12: Illumina
-               21: SOLiD
+               21: SOLiD (MP)
   [-t]       : Enable testing mode
   [-g]       : Genome size
 
@@ -215,16 +216,19 @@ find_svs()
   --bwfolder $bw_path \
   --mindist $ped_lower --maxdist $ped_upper --mean $hap_ccov --stdev $std_ccov --score $score \
   --strand $strand --ordering $ordering \
-  > breakway.out.bw 2> breakway.stderr
+  > breakway.out.${seed}.bw 2> breakway.${seed}.stderr
   #EOF
   #--segdupsfile [genomicSuperDups.txt] --selfchainfile [chainSelf.txt] --repmaskerfile [rmsk.txt]
 }
 
 #
 # Main
-while getopts "p:b:f:r:s:o:g:t" OPTION
+while getopts "p:b:f:e::r:s:o:g:t" OPTION
 do
   case $OPTION in
+    e)
+      seed=$OPTARG
+      ;;
     p)
       bw_path=$OPTARG
       ;;
@@ -273,6 +277,7 @@ bai="${bam}.bai"
 [ "$rl" == ".$rl" ]   && usage "Need to know the read length."
 [[ $strand != "SAME" && $strand != "OPPOSITE" ]] && usage "Incorrect strand." 
 [[ $ordering != "12" && $ordering != "21" ]] && usage "Incorrect ordering." 
+[ "$seed" == ".$seed" ]   && usage "Need a seed for the output files"
 
 [ $testing == "1" ] && testing_reads
 
