@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 #
 # zcat coverage.txt.gz | head -10000000 | awk '{print $2}' | sort -n | uniq -c | \ 
-# scatter.plot.one.var.R ylabel xlabel title output.png
+# scatter.plot.one.var.R ylabel xlabel title output.pdf
 #
 args=(commandArgs(TRUE));
 d <- read.table(file="stdin", colClasses=c("numeric","numeric"), col.names=c('x', 'y'), header=F)
