@@ -1,0 +1,48 @@
+#!/bin/env ruby
+#
+# Displays identity stats using the pileup output
+# contig_name : number_characters : number of Ns
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+usage =<<EOF
+Usage: 
+  $ samtools pileup -cf ref.fa my.bam | #{File.basename(__FILE__)}"
+EOF
+Help.set_usage_text usage
+
+Help.error "Invalid number of arguments." if ARGV.size != 0
+#                              con_q   SNP_q max_map_q coverage   a1      a2
+#  0      1       2       3       4       5       6       7       8       9
+# ---------------------------------------------------------------------------------
+# chr17   93      t       A       0       6       60      2       .a      "E
+# chr17   212     a       N       0       0       0       1       ^#.-1G  !
+# chr17   3018    a       G       6       41      60      5       .$ggG.  .9;;"
+#
+# nr_a# : number of reads supporting allele #
+#                                                                               nr_a1  nr_a2     nr_supporting_other_a
+#  0      1       2       3       4       5       6       7       8       9      10      11      12      13       14
+# -------------------------------------------------------------------------------------------------------------------
+# chr17   212     *       -g/-g   40      0       2       1       -g      *       1       0       0       0       0
+#
+# 
+prev_pos    = "-1"
+callable    = 0
+events      = 0
+$stdin.each_line do |l|
+  pos, ref, call, con_q, snp_q, max_map_q, cov = l.split[1..7]
+  snp_q = snp_q.to_i
+  next if call == 'N' || call == '*/*' # we don't have enough coverage to make the call, skip
+  # if prev_pos == pos # indel 
+  if prev_pos != pos # snp
+    callable += 1 
+    events   += 1 if call != ref && snp_q > 20
+  else # indel
+    events   += 1 if call != ref && snp_q > 20
+  end 
+  prev_pos = pos
+end
+
+puts "#HEADER: #_callable_positions #_events %_identity"
+printf "%d %d %f\n", callable, events, (events.to_f * 100) / callable.to_f
