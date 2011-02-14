@@ -30,8 +30,11 @@ Help.error "Invalid number of arguments." if ARGV.size != 0
 prev_pos    = "-1"
 callable    = 0
 events      = 0
+i           = 0
 $stdin.each_line do |l|
+  i += 1
   pos, ref, call, con_q, snp_q, max_map_q, cov = l.split[1..7]
+  $stderr.printf "\rcurrent bp: %s", i if i % 100000 == 0
   snp_q = snp_q.to_i
   next if call == 'N' || call == '*/*' # we don't have enough coverage to make the call, skip
   # if prev_pos == pos # indel 
