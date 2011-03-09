@@ -29,7 +29,8 @@ Help.error "Invalid number of arguments." if ARGV.size != 0
 # 
 prev_pos    = "-1"
 callable    = 0
-events      = 0
+subs        = 0
+indels      = 0
 i           = 0
 $stdin.each_line do |l|
   i += 1
@@ -40,12 +41,13 @@ $stdin.each_line do |l|
   # if prev_pos == pos # indel 
   if prev_pos != pos # snp
     callable += 1 
-    events   += 1 if call != ref && snp_q > 20
+    subs     += 1 if call != ref && snp_q > 20
   else # indel
-    events   += 1 if call != ref && snp_q > 20
+    indels   += 1 if call != ref && snp_q > 20
   end 
   prev_pos = pos
 end
+total_events = indels + subs
 
-puts "#HEADER: #_callable_positions #_events %_identity"
-printf "%d %d %f\n", callable, events, (events.to_f * 100) / callable.to_f
+puts "#HEADER: #_callable_positions #_substitutions #_indels #_total_events %_total_difference"
+printf "%d %d %d %d %f\n", callable, subs, indels, total_events, (total_events.to_f * 100) / callable.to_f
