@@ -1,15 +1,12 @@
 #!/usr/bin/env Rscript
 #
 # zcat coverage.txt.gz | head -10000000 | awk '{print $2}' | sort -n | uniq -c | \ 
-# scatter.plot.one.var.R ylabel xlabel title output.pdf
+# scatter.plot.one.var.R title output.pdf
 #
 # NOTE: if you use pileup straight use filed $8
 #
 args=(commandArgs(TRUE));
 d <- read.table(file="stdin", colClasses=c("numeric","numeric"), col.names=c('x', 'y'), header=F)
-#pdf(file=args[1], height=4, width=14)
-#bitmap(file=args[4], type="png256", width=7, height=4, units="in", res=300)
-pdf(file=args[4], width=7, height=4)
-#plot(d$y, d$x, log='x', xlab=args[1], ylab=args[2], main=args[3], xaxt="n")
-plot(d$y, d$x, xlab=args[1], ylab=args[2], main=args[3], xaxt="n", xlim=c(1,100))
+pdf(file=args[2], width=7, height=4)
+plot(d$y, d$x, xlab="coverage", ylab="frequency", main=args[1], xaxt="n", xlim=c(1,100))
 axis(1, seq(0,100,5))
