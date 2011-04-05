@@ -30,19 +30,15 @@ cat <<-EOF
 # -S          output per-sample SP (strand bias P-value, slow)
 # -g          generate BCF output 
 # -f FILE     reference sequence file
+# -u          uncompress output
 #
-samtools mpileup -D -S -gf $ref $bf > ${seed}.all.mpileup
-
 # -b        output BCF instead of VCF 
 # -v        output potential variant sites only (force -c)
 # -c        SNP calling
 # -g        call genotypes at variant sites (force -c)
 #
-bcftools view -bvcg ${seed}.all.mpileup > ${seed}.all.vcf
-
-#
+samtools mpileup -uf $ref $bf | bcftools view -bvcg - > var.raw.${seed}.bcf
 # -d INT    minimum read depth
 # -D INT    maximum read depth
-#
-bcftools view ${seed}.all.vcf | vcfutils.pl varFilter -D100 -d3 > ${seed}.vcf
+bcftools view var.raw.${seed}.bcf | vcfutils.pl varFilter -D100 -d3 > var.filtered.${seed}.vcf
 EOF
