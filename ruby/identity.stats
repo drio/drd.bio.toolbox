@@ -37,8 +37,9 @@ $stdin.each_line do |l|
   pos, ref, call, con_q, snp_q, max_map_q, cov = l.split[1..7]
   $stderr.printf "\rcurrent bp: %s", i if i % 100000 == 0
   snp_q = snp_q.to_i
-  next if call == 'N' || call == '*/*' # we don't have enough coverage to make the call, skip
-  # if prev_pos == pos # indel 
+
+  next if ref == 'N' || call == 'N' || call == '*/*' # we don't have enough coverage to make the call, skip
+
   if prev_pos != pos # snp
     callable += 1 
     subs     += 1 if call != ref && snp_q > 20
