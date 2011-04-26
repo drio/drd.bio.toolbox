@@ -13,9 +13,12 @@ Usage: #{File.basename(__FILE__)} <genome_or_scaffold_or_contig size>
 
 Example: 
 
-  $ zcat pu.chrm10.gz | awk '{print $1" "$2" "$4}' | uniq | \
+  $ zcat pu.chrm10.gz | awk '{print $1" "$2" "$8}' | uniq | \
   calc_coverage_stats 160000000
   # size of Gibbon chrm10 in assembly (Not actual value)
+
+Input:
+chrm position read_coverage
 
 Note   : The tools expects the bam to be sorted by coordinate.
 WARNING: Also, we use uniq to skip join indels!
