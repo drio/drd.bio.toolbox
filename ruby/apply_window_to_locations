@@ -1,0 +1,52 @@
+#!/bin/env ruby
+#
+# Given a list of locations, a window size and
+# a contig/scaffold/chrm size, it finds the number
+# of events at each window
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+
+include Help
+include Common
+include Statistics
+usage=<<-EOF
+Usage: cat list_locations | #{File.basename(__FILE__)} <window_size> <chrm_size>
+
+Input format:
+100
+123
+873
+1231
+3434
+....
+EOF
+Help.set_usage_text usage
+
+# Same as process_pileup, but does not stores anything
+# in the array, it dumps directly.
+module GenomicLocations
+  def self.amount_per_window(w_size, g_size)
+    hl   = {} # hash locations
+    nepw = 0  # number of events in window
+    cw   = 0  # current window
+    $stdin.each_line {|l| hl[l.chomp.to_i] = 1 }
+    (1..g_size).each do |i| 
+      nepw += 1 if hl[i]
+      if i % w_size == 1
+        puts "#{cw} #{nepw}"
+        cw += 1
+        nepw = 0
+      end
+    end
+  end
+end
+
+# Main
+# 
+if __FILE__ == $0
+  Help.error "Invalid number of arguments." if ARGV.size != 2
+  Help.error "No data in stdin." unless Common.data_in_stdin?
+  w_size = ARGV[0].to_i
+  g_size = ARGV[1].to_i
+  GenomicLocations::amount_per_window w_size, g_size
+end
