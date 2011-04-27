@@ -9,7 +9,7 @@
 args=(commandArgs(TRUE));
 pdf(file=args[1], height=6, width=12)
 par(mfrow=c(1,2))  
-par(mar=c(7,5,2,2))
+par(mar=c(12,5,2,2))
 colors=c("pink", "seagreen1")
 
 d <- read.table(file="stdin", header=T, sep=",")

@@ -29,7 +29,7 @@ Help.set_usage_text usage
 # in the array, it dumps directly.
 module PileUpProcessing
   def self.process_pu_and_dump(gsize)
-    gp     = 1   # global position
+    gp     = 0   # global position
     offset = 0   # pileup uses positions relative to the scaffolds.
     $stdin.each_line do |l_stdin|
       s, p, c = l_stdin.split # scaffold name, position, coverage
@@ -39,6 +39,10 @@ module PileUpProcessing
       end
       printf "%s %s\n", gp, c # We have coverage in pileup, use it
       gp += 1
+    end
+    # If there are more locations without coverage, dump them
+    while gp < gsize 
+      printf "%s %s\n", gp, 0; gp += 1
     end
   end
 end

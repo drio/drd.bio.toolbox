@@ -28,13 +28,11 @@ module GenomicLocations
   def self.amount_per_window(w_size, g_size)
     hl   = {} # hash locations
     nepw = 0  # number of events in window
-    cw   = 0  # current window
     $stdin.each_line {|l| hl[l.chomp.to_i] = 1 }
-    (1..g_size).each do |i| 
+    (0..g_size).each do |i| 
       nepw += 1 if hl[i]
       if i % w_size == 1
-        puts "#{cw} #{nepw}"
-        cw += 1
+        puts "#{i-1} #{nepw}"
         nepw = 0
       end
     end

@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+#
+# Finds mean across windows of coverage so coverage
+# plotting looks better.
+#
+require File.expand_path(File.dirname(__FILE__)) + "/common"
+#require "profile"
+
+include Help
+include Common
+usage=<<-EOF
+Usage: cat coverage | #{File.basename(__FILE__)} <window_size> 
+EOF
+Help.set_usage_text usage
+
+# Main
+# 
+Help.error "No data in stdin." unless Common.data_in_stdin?
+Help.error "Wrong number of parameters." unless ARGV.size == 1
+window = ARGV[0].to_i
+
+a = 0
+$stdin.each_line do |l|
+  p, c = l.split
+  a += c.to_i
+  if p.to_i % window == 0
+    puts "#{p} #{a / window}" 
+    a = 0 
+  end
+end
