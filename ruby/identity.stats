@@ -40,10 +40,10 @@ $stdin.each_line do |l|
 
   next if ref == 'N' || call == 'N' || call == '*/*' # we don't have enough coverage to make the call, skip
 
-  if prev_pos != pos # snp
+  if prev_pos != pos # snp (or start of a indel)
     callable += 1 
     subs     += 1 if call != ref && snp_q > 20
-  else # indel
+  else # indel (don't increase callable, we have done it already)
     indels   += 1 if call != ref && snp_q > 20
   end 
   prev_pos = pos
