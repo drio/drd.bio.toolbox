@@ -4,6 +4,7 @@ module Common
   def load_common
     h={}
     common_file = File.dirname(__FILE__) + "/../bash/common.sh"
+    
     File.open(common_file).each_line do |l| 
       if l =~ /^[\w_-]+=["-\/\$\w_.]+\"$/
         var, val = l.split('=')
@@ -11,6 +12,7 @@ module Common
         #puts var + ":" + h[var]
       end
     end 
+    h["picard_jars_dir"] = ENV["PICARD"] # Little hack .. otherwise won't load $PICARD
     h
   end
 

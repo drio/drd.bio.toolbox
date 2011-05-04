@@ -47,8 +47,8 @@ tmp="/space1/tmp/"
 
 java="java"
 R="R"
-picard_jars_dir="/data/next_gen_1/drio_scratch/software/picard-tools"
-gatk_jars_dir="/data/rogers/drio_scratch/bb/local/gatk"
+picard_jars_dir=$PICARD
+####gatk_jars_dir="/data/rogers/drio_scratch/bb/local/gatk"
 ruby="/data/next_gen_1/drio_scratch/software/bin/ruby"
 
 samtools="samtools"
