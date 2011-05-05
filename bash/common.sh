@@ -20,8 +20,6 @@ EOF
 ) > $2
 }
 
-main_dir="/data/next_gen_1/drio_scratch/macaque"
-bin_dir="/data/next_gen_1/drio_scratch/macaque/bin"
 dnaa="$bin_dir/dnaa"
 dwgsim="$dnaa/dwgsim/dwgsim"
 novo_bin_dir="$HOME/projects/novoalign/bin/linux"
@@ -44,12 +42,13 @@ novo_ss="$bin_dir/novoalign/bin/linux/novocraft"
 
 bwa="$bin_dir/bwa/bwa"
 tmp="/space1/tmp/"
+default_queue="analysis"
 
 java="java"
 R="R"
 picard_jars_dir=$PICARD
 ####gatk_jars_dir="/data/rogers/drio_scratch/bb/local/gatk"
-ruby="/data/next_gen_1/drio_scratch/software/bin/ruby"
+ruby="ruby"
 
 samtools="samtools"
 samtools_perl="samtools.pl"
