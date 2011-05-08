@@ -15,7 +15,7 @@ cat <<-EOF
 # -F 1024: Don't include dups in the snp calling.
 # -Q20   : Only reads of mapping qual >20
 # -B     : disable BAQ computations
-$samtools view -bF 1024 $1 | $samtools pileup -Q20 -B -vc -f $2 - > $1.pileup
+$samtools view -bF 1024 $1 | $samtools pileup -Q15 -B -vc -f $2 - > $1.pileup
 
 # 2. Filter for high coverage
 #                              con_q   SNP_q max_map_q coverage   a1      a2
