@@ -5,7 +5,9 @@ set -e
 
 source "`dirname ${BASH_SOURCE[0]}`/common.sh"
 
+bn=`basename $1`
 cat <<-EOF
+set -e
 #
 # Usage:
 # <script> <bam_file> <fast_ref_genome>
@@ -13,9 +15,10 @@ cat <<-EOF
 # 1. Generate pileup
 # -v     : print varias only, -c output soap consensus, -f ref genome (fasta)
 # -F 1024: Don't include dups in the snp calling.
-# -Q20   : Only reads of mapping qual >20
+# -Q10   : Only reads of mapping qual >20
 # -B     : disable BAQ computations
-$samtools view -bF 1024 $1 | $samtools pileup -Q15 -B -vc -f $2 - > $1.pileup
+# -m     : defaults to [0x704] unmapped, not primer alignment, fails QC, dups
+$samtools pileup -Q10 -B -vc -f $2 $1 > $bn.pileup
 
 # 2. Filter for high coverage
 #                              con_q   SNP_q max_map_q coverage   a1      a2
@@ -60,9 +63,9 @@ $samtools view -bF 1024 $1 | $samtools pileup -Q15 -B -vc -f $2 - > $1.pileup
 #          -l INT    window size for filtering adjacent gaps [30]
 # 
 #          -p        print filtered variants
-$samtools_perl varFilter -p $1.pileup > $1.pileup.varfilter 2> $1.pileup.filtered_out
+$samtools_perl varFilter -p $bn.pileup > $bn.pileup.varfilter 2> $bn.pileup.filtered_out
 
 # 3. Only report Substitutions and Indels based on a quality threshold
 # 75 is the quality threshold for indels and 20 for substitutions
-awk '(\$3=="*"&&\$6>=50) || (\$3!="*"&&\$6>=20)' $1.pileup.varfilter > $1.pileup.var_filter.qual_threshold
+awk '(\$3=="*"&&\$6>=50) || (\$3!="*"&&\$6>=20)' $bn.pileup.varfilter > $bn.pileup.var_filter.qual_threshold
 EOF
