@@ -37,5 +37,5 @@ __END__
   "bams"        : BAMS,
   "title"       : "bn.PRJ.SAMPLE",
   "prj_name"    : "PRJ",
-  "sample_name" : "SAMPLE"}
+  "sample_name" : "SAMPLE"
 }
