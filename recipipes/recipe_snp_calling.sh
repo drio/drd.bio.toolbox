@@ -39,6 +39,10 @@ for b in $@; do
   input_bams="$input_bams $b" 
 done
 
+log "Fixing bam"
+for b in $input_bams;do
+  fix_bam.sh $b | bash
+done
 
 log "Merge bams ($input_bams)"
 merged_bam="merged.bam"

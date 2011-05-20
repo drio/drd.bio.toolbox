@@ -39,6 +39,8 @@ novo_cs_index="novo.index.cs"
 novo_cs="$bin_dir/novoalign/bin/linux/novoalignCS"
 novo_ss="$bin_dir/novoalign/bin/linux/novocraft"
 
+# Illumina pipeline 
+ipipe_java="$I_PIPE/java"
 
 bwa="$bin_dir/bwa/bwa"
 tmp="/space1/tmp/"
