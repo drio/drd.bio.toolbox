@@ -39,21 +39,32 @@ for b in $@; do
   input_bams="$input_bams $b" 
 done
 
-log "Fixing bam"
+log "Copying bams over"
+local_bams=""
 for b in $input_bams;do
+  base=`basename $b`
+  cp $b ./$base
+  local_bams="$local_bams $base"
+done
+
+log "Fixing bam"
+for b in $local_bams;do
   fix_bam.sh $b | bash
 done
 
-log "Merge bams ($input_bams)"
+log "Merge bams ($local_bams)"
 merged_bam="merged.bam"
-merge_this $input_bams $merged_bam | bash
+merge_this $local_bams $merged_bam | bash
+
+log "Removing local bams" # Be a good neighbour
+rm -f $local_bams
 
 log "mark dups"
 merged_dups_bam="merged.dups.bam"
 bam_mark_dups.sh $merged_dups_bam $merged_bam | bash
 
 log "removing merged bam"
-rm -f $merged_bam
+rm -f $merged_bam # Be a good neighbour
 
 base_cov="base_coverage.txt"
 log "calculating base coverage"
