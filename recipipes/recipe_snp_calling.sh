@@ -52,9 +52,15 @@ for b in $local_bams;do
   fix_bam.sh $b | bash
 done
 
-log "Merge bams ($local_bams)"
-merged_bam="merged.bam"
-merge_this $local_bams $merged_bam | bash
+n_bams=`echo $local_bams | wc | awk '{print $2}'`
+if [ $n_bams -gt 1 ] ;then
+  log "Merge bams ($local_bams)"
+  merged_bam="merged.bam"
+  merge_this $local_bams $merged_bam | bash
+else
+  log "No need to merge a single bam"
+  mv $local_bams $merged_bam
+fi
 
 log "Removing local bams" # Be a good neighbour
 rm -f $local_bams
