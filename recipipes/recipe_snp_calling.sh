@@ -47,7 +47,7 @@ for b in $input_bams;do
   local_bams="$local_bams $base"
 done
 
-log "Fixing bam"
+log "Fix bam"
 for b in $local_bams;do
   fix_bam.sh $b | bash
 done
