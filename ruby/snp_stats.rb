@@ -3,6 +3,7 @@
 require File.expand_path(File.dirname(__FILE__)) + "/common"
 
 include Help
+include Common
 usage =<<EOF
 Given the base coverage and varfiltered samtools output
 generates basic stats.
@@ -19,7 +20,8 @@ Help.error "var_filtered pu file not found. " unless File.exists?(pu_fn)
 
 # callable positions (we have at least two reads covering the locus)
 callable = 0
-Common::open_file(cov_fn).each_line do |l|
+File.open(cov_fn).each_line do |l|
+  next if l =~ /^#/
   callable += 1 if l.split[2].to_i > 1
 end
 
