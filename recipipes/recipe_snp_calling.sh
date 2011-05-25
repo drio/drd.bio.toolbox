@@ -72,9 +72,9 @@ bam_mark_dups.sh $merged_dups_bam $merged_bam | bash
 log "removing merged bam"
 rm -f $merged_bam # Be a good neighbour
 
-base_cov="base_coverage.txt.gz"
+base_cov="base_coverage.txt"
 log "calculating base coverage"
-std_pileup $merged_dups_bam | gzip -c > $base_cov
+std_pileup $merged_dups_bam > $base_cov
 
 log "pileup"
 pileup.this.sh $merged_dups_bam $fasta_file | bash
