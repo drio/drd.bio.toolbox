@@ -19,7 +19,9 @@ Help.error "var_filtered pu file not found. " unless File.exists?(pu_fn)
 
 # callable positions (we have at least two reads covering the locus)
 callable = 0
-File.open(cov_fn).each_line {|l| callable += 1}
+Common::open_file(cov_fn).each_line do |l|
+  callable += 1 if l.split[2].to_i > 1
+end
 
 # Find number of snps and indels (from var_filtered pileup)
 subs = indels = 0

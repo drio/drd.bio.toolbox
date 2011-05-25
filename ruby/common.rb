@@ -1,4 +1,6 @@
 #
+require 'zlib'
+
 module Common
   # Load the common.sh data in a hash
   def load_common
@@ -26,6 +28,16 @@ module Common
     cr = c_return  == 1 ? "\n" : ""
     sl = same_line == 1 ? "\r" : ""
     $stderr.printf "#{sl}%s#{cr}", msg
+  end
+
+  # given a file, if extension is .gz, the IO stream is 
+  # processed by zlib::GzipReader
+  def open_file_for_read(file_name)
+    begin
+      file_name =~ /\.gz$/ ? Zlib::GzipReader.new(f) : File.open(file_name)
+    rescue
+      raise "Problems opening IO stream. (#{$0} : open_file_for_read())"
+    end
   end
 end
 
