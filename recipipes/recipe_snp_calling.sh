@@ -53,9 +53,9 @@ for b in $local_bams;do
 done
 
 n_bams=`echo $local_bams | wc | awk '{print $2}'`
+merged_bam="merged.bam"
 if [ $n_bams -gt 1 ] ;then
   log "Merge bams ($local_bams)"
-  merged_bam="merged.bam"
   merge_this $local_bams $merged_bam | bash
 else
   log "No need to merge a single bam"
