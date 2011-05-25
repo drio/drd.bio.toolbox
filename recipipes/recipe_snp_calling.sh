@@ -39,6 +39,10 @@ for b in $@; do
   input_bams="$input_bams $b" 
 done
 
+# The input bams should have the RG tag set. That's crucial for the
+# duplication step where reads coming from the same template as marked
+# as PCR duplicates.
+# 
 log "Copying bams over"
 local_bams=""
 for b in $input_bams;do
@@ -47,11 +51,31 @@ for b in $input_bams;do
   local_bams="$local_bams $base"
 done
 
+# We run a couple of fixes here:
+#
+# 1. PICARD's fixmate: BWA does not properly set the pairing information
+#    fields. 
+# 2. BWA can align a read to the junction of two contigs. 
+#    There are two cases:
+#    A. The read truly maps to that end of the read and the end does not map
+#       to the start of the other contig. BWA _does_ NOT set the unmapped 
+#       flag. 
+#    B. If the read maps to both contigs, BWA sets the unmapped flag but 
+#       keeps the CIGAR.
+#
+#   For case A (mapped), we will recive an error from PICARD since the read is expanding 
+#   two contings. 
+#   
+#   For case B (unmapped), we clean up the CIGAR, otherwise picard complains. 
+#       
 log "Fix bam"
 for b in $local_bams;do
   fix_bam.sh $b | bash
 done
 
+# Merge BAMS
+# Merge alignment from the same sample in one single bam
+#
 n_bams=`echo $local_bams | wc | awk '{print $2}'`
 merged_bam="merged.bam"
 if [ $n_bams -gt 1 ] ;then
@@ -62,9 +86,13 @@ else
   mv $local_bams $merged_bam
 fi
 
+# Clean up the single bams as we have the merged one
+#
 log "Removing local bams" # Be a good neighbour
 rm -f $local_bams
 
+# Mark duplicates. 
+#
 log "mark dups"
 merged_dups_bam="merged.dups.bam"
 bam_mark_dups.sh $merged_dups_bam $merged_bam | bash
@@ -76,6 +104,18 @@ base_cov="base_coverage.txt"
 log "calculating base coverage"
 std_pileup $merged_dups_bam > $base_cov
 
+# Call snps
+#
+# 1. Perform pileup and call consensus (SOAP model)
+# 2. filter 1 the output: 
+#  d: low depth
+#  D: high depth
+#  W: too many SNPs in a window (SNP only)
+#  G: close to a high-quality indel (SNP only)
+#  Q: low root-mean-square (RMS) mapping quality (SNP only)
+#  g: close to another indel with more evidence (indel only)
+# 3. filter 2: SNPQ
+#
 log "pileup"
 pileup.this.sh $merged_dups_bam $fasta_file | bash
 

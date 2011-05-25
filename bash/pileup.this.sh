@@ -16,9 +16,8 @@ set -e
 # -v     : print varias only, -c output soap consensus, -f ref genome (fasta)
 # -F 1024: Don't include dups in the snp calling. *default*
 # -Q10   : Only reads of mapping qual >10
-# -B     : disable BAQ computations
 # -m     : defaults to [0x704] unmapped, not primer alignment, fails QC, dups
-$samtools pileup -Q10 -B -vc -f $2 $1 > $bn.pileup
+$samtools pileup -Q10 -vc -f $2 $1 > $bn.pileup
 
 # 2. Filter for high coverage
 #                              con_q   SNP_q max_map_q coverage   a1      a2

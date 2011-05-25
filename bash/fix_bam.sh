@@ -30,7 +30,7 @@ VALIDATION_STRINGENCY=STRICT
 # Fix CIGAR
 # Class to modify CIGAR and mapping quality of alignments. 
 # 1. For mapped reads, if CIGAR extends beyond the chromosome end, 
-# clip CIGAR. 
+# clip CIGAR. (not implemented yet).
 # 2 For unmapped reads, reset mapping quality to zero and reset 
 # CIGAR to *.
 #
