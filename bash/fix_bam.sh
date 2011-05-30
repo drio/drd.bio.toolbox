@@ -25,7 +25,7 @@ $java -jar -Xmx4g $PICARD/FixMateInformation.jar \
 I=$if \
 TMP_DIR=$tmp \
 VERBOSITY=ERROR \
-VALIDATION_STRINGENCY=STRICT
+VALIDATION_STRINGENCY=$PICARD_VALIDATION
 
 # Fix CIGAR
 # Class to modify CIGAR and mapping quality of alignments. 
@@ -34,9 +34,9 @@ VALIDATION_STRINGENCY=STRICT
 # 2 For unmapped reads, reset mapping quality to zero and reset 
 # CIGAR to *.
 #
-$java -jar -Xmx4g $ipipe_java/FixCIGAR.jar \
-I=$if \
-TMP_DIR=$tmp \
-VERBOSITY=ERROR \
-VALIDATION_STRINGENCY=STRICT
+# $java -jar -Xmx4g $ipipe_java/FixCIGAR.jar \
+# I=$if \
+# TMP_DIR=$tmp \
+# VERBOSITY=ERROR \
+# VALIDATION_STRINGENCY=$PICARD_VALIDATION
 EOF

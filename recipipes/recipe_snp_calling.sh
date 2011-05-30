@@ -6,7 +6,6 @@ source "`dirname ${BASH_SOURCE[0]}`/../bash/common.sh"
 
 log()
 {
-  echo ""
   echo "### `date` >> $1"
 }
 
@@ -43,13 +42,13 @@ done
 # duplication step where reads coming from the same template as marked
 # as PCR duplicates.
 # 
-log "Copying bams over"
-local_bams=""
-for b in $input_bams;do
-  base=`basename $b`
-  cp $b ./$base
-  local_bams="$local_bams $base"
-done
+#log "Copying bams over"
+#local_bams=""
+#for b in $input_bams;do
+#  base=`basename $b`
+#  cp $b ./$base
+#  local_bams="$local_bams $base"
+#done
 
 # We run a couple of fixes here:
 #
@@ -68,28 +67,32 @@ done
 #   
 #   For case B (unmapped), we clean up the CIGAR, otherwise picard complains. 
 #       
-log "Fix bam"
-for b in $local_bams;do
-  fix_bam.sh $b | bash
-done
+#log "Fix bam"
+#for b in $local_bams;do
+#  fix_bam.sh $b | bash
+#done
 
 # Merge BAMS
 # Merge alignment from the same sample in one single bam
 #
-n_bams=`echo $local_bams | wc | awk '{print $2}'`
+#n_bams=`echo $local_bams | wc | awk '{print $2}'`
+n_bams=`echo $input_bams | wc | awk '{print $2}'`
 merged_bam="merged.bam"
 if [ $n_bams -gt 1 ] ;then
-  log "Merge bams ($local_bams)"
-  merge_this $local_bams $merged_bam | bash
+  #log "Merge bams ($local_bams)"
+  log "Merge bams ($input_bams)"
+  #merge_this $local_bams $merged_bam | bash
+  merge_this $input_bams $merged_bam | bash
 else
   log "No need to merge a single bam"
-  mv $local_bams $merged_bam
+  #mv $local_bams $merged_bam
+  merged_bam=$input_bams
 fi
 
 # Clean up the single bams as we have the merged one
 #
-log "Removing local bams" # Be a good neighbour
-rm -f $local_bams
+#log "Removing local bams" # Be a good neighbour
+#rm -f $local_bams
 
 # Mark duplicates. 
 #

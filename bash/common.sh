@@ -43,12 +43,14 @@ novo_ss="$bin_dir/novoalign/bin/linux/novocraft"
 ipipe_java="$I_PIPE/java"
 
 bwa="$bin_dir/bwa/bwa"
-tmp="/space1/tmp/"
+#tmp="/space1/tmp/"
+tmp="/stornext/snfs5/next-gen/drio-scratch/tmp"
 default_queue="analysis"
 
 java="java"
 R="R"
 picard_jars_dir=$PICARD
+PICARD_VALIDATION="SILENT"
 ####gatk_jars_dir="/data/rogers/drio_scratch/bb/local/gatk"
 ruby="ruby"
 
