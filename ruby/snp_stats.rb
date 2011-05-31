@@ -40,10 +40,10 @@ end
 total_events = subs + indels
 puts <<EOF
 {
-  callable: #{callable},
-  substitutions: #{subs},
-  indels: #{indels},
-  total_events: #{total_events},
-  percentage_difference: #{(total_events.to_f * 100) / callable.to_f},
+  "callable": #{callable},
+  "substitutions": #{subs},
+  "indels": #{indels},
+  "total_events": #{total_events},
+  "percentage_difference": #{(total_events.to_f * 100) / callable.to_f},
 }
 EOF

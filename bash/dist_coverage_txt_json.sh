@@ -26,6 +26,6 @@ sort -k1,1rn | \
 tee ${title}.txt | \
 ruby -ane '\
   BEGIN{puts "["} 
-  puts "{ x:#{$F[1]}, y:#{$F[0]} }," 
+  puts "{ \"x\":#{$F[1]}, \"y\":#{$F[0]} }," 
   END{puts "]"}' \
 > ${title}.json

@@ -45,14 +45,14 @@ end
 
 json_map_stats = <<EOF
 {
-  raw_reads             : #{vals[0]},
-  raw_single            : #{vals[1]},
-  mapped_paired         : #{vals[2]},
-  paired_one_end_mapped : #{vals[3]},
-  mapped_single         : #{vals[4]},
-  paired_dups           : #{vals[5]},
-  unpaired_dups         : #{vals[6]},
-  single_dups           : #{vals[7]},
+  "raw_reads"             : #{vals[0]},
+  "raw_single"            : #{vals[1]},
+  "mapped_paired"         : #{vals[2]},
+  "paired_one_end_mapped" : #{vals[3]},
+  "mapped_single"         : #{vals[4]},
+  "paired_dups"           : #{vals[5]},
+  "unpaired_dups"         : #{vals[6]},
+  "single_dups"           : #{vals[7]},
 }
 EOF
 
