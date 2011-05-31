@@ -50,7 +50,7 @@ default_queue="analysis"
 java="java"
 R="R"
 picard_jars_dir=$PICARD
-PICARD_VALIDATION="SILENT"
+PICARD_VALIDATION="LENIENT"
 ####gatk_jars_dir="/data/rogers/drio_scratch/bb/local/gatk"
 ruby="ruby"
 
