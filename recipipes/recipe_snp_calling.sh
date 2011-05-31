@@ -101,7 +101,7 @@ merged_dups_bam="merged.dups.bam"
 bam_mark_dups.sh $merged_dups_bam $merged_bam | bash
 
 log "removing merged bam"
-rm -f $merged_bam # Be a good neighbour
+[ $n_bams -gt 1 ] && rm -f $merged_bam # Be a good neighbour
 
 base_cov="base_coverage.txt"
 log "calculating base coverage"
