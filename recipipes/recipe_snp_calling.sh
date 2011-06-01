@@ -122,7 +122,16 @@ std_pileup $merged_dups_bam > $base_cov
 log "pileup"
 pileup.this.sh $merged_dups_bam $fasta_file | bash
 
-log "dumping stats"
+log "Dist of coverage data"
+dist_coverage_txt_json.sh $merged_dups_bam
+
+log "mapping stats"
+dbamstats $merged_dups_bam | dbamstats2json.rb
+
+log "insert size distribution stats"
+isize_bam_json.sh $merged_dups_bam
+
+log "SNP stats"
 output="snp_stats.json"
 snp_stats.rb $base_cov *.var_filter.qual_threshold > $output
 

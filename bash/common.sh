@@ -43,8 +43,8 @@ novo_ss="$bin_dir/novoalign/bin/linux/novocraft"
 ipipe_java="$I_PIPE/java"
 
 bwa="$bin_dir/bwa/bwa"
-#tmp="/space1/tmp/"
-tmp="/stornext/snfs5/next-gen/drio-scratch/tmp"
+tmp="/space1/tmp/"
+#tmp="/stornext/snfs5/next-gen/drio-scratch/tmp"
 default_queue="analysis"
 
 java="java"

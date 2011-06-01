@@ -8,11 +8,10 @@ include Common
 include Help
 usage =<<EOF
 Usage: 
-  $ dbamstats my.bam | #{File.basename(__FILE__)} <sample_id>"
+  $ dbamstats my.bam | #{File.basename(__FILE__)}"
 EOF
 Help.set_usage_text usage
 Help.error "No data in stdin." unless data_in_stdin?
-Help.error "No data in stdin." unless ARGV.size == 1
 
 #Number of raw paired reads:88004	
 #Number of raw single end reads:30465	
@@ -52,15 +51,15 @@ json_map_stats = <<EOF
   "mapped_single"         : #{vals[4]},
   "paired_dups"           : #{vals[5]},
   "unpaired_dups"         : #{vals[6]},
-  "single_dups"           : #{vals[7]},
+  "single_dups"           : #{vals[7]}
 }
 EOF
 
-json_dist_mapq = "[\n"
+json_data = []
 dist_data.each do |mapq, amount|
-  json_dist_mapq += "  { x:#{mapq}, y:#{amount} },\n"  
+  json_data << " { \"x\":#{mapq}, \"y\":#{amount} }"
 end
-json_dist_mapq += "]\n"
+json_dist_mapq = "[\n" + json_data.join(",") + "]\n"
 
 File.open("map_stats.json", "w") {|f| f.write(json_map_stats)}
 File.open("dist_mapq.json", "w") {|f| f.write(json_dist_mapq)}
