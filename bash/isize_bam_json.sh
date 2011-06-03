@@ -19,7 +19,7 @@ if [ ".$bam" == "." ] || [ ! -f $bam ] ;then
   usage
 fi
 
-title="isize_dist"
+title="dist_isize"
 samtools view -f3 $bam | \
 awk '{if ($9 < $isize_w && $9 > 10) print $9}' | \
 sort -n | uniq -c | \
