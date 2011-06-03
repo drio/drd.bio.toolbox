@@ -39,11 +39,11 @@ if=$2
 #fi
 
 cat <<EOF
-$java -jar -Xmx6g $picard_jars_dir/MarkDuplicates.jar \
+$java -jar -Xmx26g $picard_jars_dir/MarkDuplicates.jar \
 TMP_DIR=$tmp \
+METRICS_FILE='metric_file.picard' \
 INPUT=$if \
 OUTPUT=$of \
-METRICS_FILE='/tmp/metric_file.picard' \
-VERBOSITY=ERROR \
+MAX_RECORDS_IN_RAM=2500000 \
 VALIDATION_STRINGENCY=$PICARD_VALIDATION
 EOF

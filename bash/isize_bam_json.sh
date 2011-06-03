@@ -26,6 +26,6 @@ sort -n | uniq -c | \
 tee ${title}.txt | \
 ruby -ane '\
   BEGIN{@h = "["; @body = []}
-    @body << "{ \"x\":#{$F[1]}, \"y\":#{$F[0]} }"
+    @body << "[ #{$F[1]}, #{$F[0]} ]"
   END{puts @h + @body.join(",") + "]"}' \
 > ${title}.json

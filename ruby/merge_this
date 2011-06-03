@@ -26,13 +26,16 @@ ch = Common::load_common
 cmd.gsub!(/_JAVA_/, ch["java"])
 cmd.gsub!(/_JAR_/, ch["picard_jars_dir"] + "/MergeSamFiles.jar")
 cmd.gsub!(/_TMP_/, ch["tmp"])
+cmd.gsub!(/_VALIDATION_/, ch["PICARD_VALIDATION"])
 puts cmd
 #`#{cmd}`
 
 __END__
-_JAVA_ -jar -Xmx8g _JAR_ \
+_JAVA_ -jar -Xmx26g _JAR_ \
 _INPUTS_ \
 TMP_DIR=_TMP_ \
 OUTPUT=_OUT_ \
-VALIDATION_STRINGENCY=LENIENT
-#USE_THREADING=true \
+VALIDATION_STRINGENCY=_VALIDATION_ \
+USE_THREADING=true \
+MAX_RECORDS_IN_RAM=2500000 \
+AS=true

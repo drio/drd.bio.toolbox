@@ -26,6 +26,6 @@ sort -k1,1rn | \
 tee ${title}.txt | \
 ruby -ane '\
   BEGIN{@h = "["; @body = []}
-    @body << "{ \"x\":#{$F[1]}, \"y\":#{$F[0]} }"
-  END{puts @h + @body.join(",") + "]"}' \
+    @body << "[ #{$F[1]}, #{$F[0]} ]"
+  END{puts @h + @body.join(",\n") + "]"}' \
 > ${title}.json

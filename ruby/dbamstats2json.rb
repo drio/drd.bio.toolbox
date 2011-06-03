@@ -57,7 +57,7 @@ EOF
 
 json_data = []
 dist_data.each do |mapq, amount|
-  json_data << " { \"x\":#{mapq}, \"y\":#{amount} }"
+  json_data << " [ #{mapq}, #{amount} ]"
 end
 json_dist_mapq = "[\n" + json_data.join(",") + "]\n"
 
