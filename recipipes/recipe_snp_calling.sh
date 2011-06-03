@@ -132,7 +132,7 @@ log "insert size distribution stats"
 isize_bam_json.sh $merged_dups_bam
 
 log "SNP stats"
-output="snp_stats.json"
+output="stats_snps.json"
 snp_stats.rb $base_cov *.var_filter.qual_threshold > $output
 
 log "Done."

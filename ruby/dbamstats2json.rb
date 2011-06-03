@@ -61,5 +61,5 @@ dist_data.each do |mapq, amount|
 end
 json_dist_mapq = "[\n" + json_data.join(",") + "]\n"
 
-File.open("map_stats.json", "w") {|f| f.write(json_map_stats)}
+File.open("stats_mapping.json", "w") {|f| f.write(json_map_stats)}
 File.open("dist_mapq.json", "w") {|f| f.write(json_dist_mapq)}
