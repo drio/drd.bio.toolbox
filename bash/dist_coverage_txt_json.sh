@@ -20,7 +20,7 @@ if=$1
 title="dist_coverage"
 std_pileup $if | \
 awk '{print $3}' | \
-sort -n | \
+sort -n -T$tmp -S$sort_buffer | \
 uniq -c | \
 sort -k1,1rn | \
 tee ${title}.txt | \

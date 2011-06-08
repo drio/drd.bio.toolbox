@@ -60,6 +60,8 @@ samtools_perl="samtools.pl"
 submit_bin="msub"  # MOAB
 #submit_bin="qsub" # PBS
 
+sort_buffer="2000M"
+
 # Bfast
 #
 bfast_bin="$bin_dir/bfast/bfast/bfast"
@@ -75,4 +77,3 @@ h_masks=(
 11110110001011010011100101111101111
 1111111001000110001011100110001100011111
 )
-

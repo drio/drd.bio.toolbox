@@ -22,7 +22,7 @@ fi
 title="dist_isize"
 samtools view -f3 $bam | \
 awk '{if ($9 < $isize_w && $9 > 10) print $9}' | \
-sort -n | uniq -c | \
+sort -T$tmp -S$sort_buffer -n | uniq -c | \
 awk '{if ($1 > 100) print}' | \
 tee ${title}.txt | \
 ruby -ane '\
