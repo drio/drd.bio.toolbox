@@ -23,9 +23,10 @@ title="dist_isize"
 samtools view -f3 $bam | \
 awk '{if ($9 < $isize_w && $9 > 10) print $9}' | \
 sort -n | uniq -c | \
+awk '{if ($1 > 100) print}' | \
 tee ${title}.txt | \
 ruby -ane '\
   BEGIN{@h = "["; @body = []}
     @body << "[ #{$F[1]}, #{$F[0]} ]"
-  END{puts @h + @body.join(",") + "]"}' \
+  END{puts @h + @body.join(",\n") + "]"}' \
 > ${title}.json
