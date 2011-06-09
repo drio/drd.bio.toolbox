@@ -17,7 +17,7 @@ set -e
 # -F 1024: Don't include dups in the snp calling. *default*
 ## -Q10   : Only reads of mapping qual >10
 # -m     : defaults to [0x704] unmapped, not primer alignment, fails QC, dups
-$samtools pileup -vc -f $2 $1 > $bn.pileup
+$samtools pileup -vc -Q10 -f $2 $1 > $bn.pileup
 
 # 2. Filter for high coverage
 #                              con_q   SNP_q max_map_q coverage   a1      a2
