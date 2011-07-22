@@ -15,7 +15,7 @@ set -e
 # 1. Generate pileup
 # -v     : print varias only, -c output soap consensus, -f ref genome (fasta)
 # -F 1024: Don't include dups in the snp calling. *default*
-## -Q10   : Only reads of mapping qual >10
+## -Q10   : Only reads of mapping qual > 10
 # -m     : defaults to [0x704] unmapped, not primer alignment, fails QC, dups
 $samtools pileup -vc -Q10 -f $2 $1 > $bn.pileup
 

@@ -103,10 +103,6 @@ bam_mark_dups.sh $merged_dups_bam $merged_bam | bash
 log "removing merged bam"
 [ $n_bams -gt 1 ] && rm -f $merged_bam # Be a good neighbour
 
-base_cov="base_coverage.txt"
-log "calculating base coverage"
-std_pileup $merged_dups_bam > $base_cov
-
 # Call snps
 #
 # 1. Perform pileup and call consensus (SOAP model)
@@ -121,6 +117,10 @@ std_pileup $merged_dups_bam > $base_cov
 #
 log "pileup"
 pileup.this.sh $merged_dups_bam $fasta_file | bash
+
+base_cov="base_coverage.txt"
+log "calculating base coverage"
+std_pileup $merged_dups_bam > $base_cov
 
 log "Dist of coverage data"
 dist_coverage_txt_json.sh $merged_dups_bam
