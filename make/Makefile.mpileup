@@ -1,0 +1,51 @@
+#
+ORIGINAL_BAM=/stornext/snfs6/rogers/drio_scratch/bio.node/baboon.diversity/p1-A/merged.dups.bam
+TEST_LINES=400000
+BAM=baboon.p1-A.$(TEST_LINES).bam
+REF_FASTA=/Users/drio/dev/genomes/baboon_Pham_2.0.fixed_to_80chr.fa
+REF_FAI=$(REF_FASTA).fai
+#
+MAX_COV=100
+#
+#
+define USAGE
+Usage:
+	make [-n] BAM=test.bam sample1.snps.gz
+For testing:
+	make test; make BAM=test.bam output.gz
+endef
+
+export USAGE
+
+all:
+	@echo "$$USAGE"
+
+%.gz: glikelihoods.bcf
+	bcftools view $< |\
+	vcfutils.pl varFilter -D$(MAX_COV) | gzip -c > $@
+
+# -u compress bcf output
+# -b output bcf
+# -v output variant sites only
+# -c snp calling
+# -g call genotypes at variant sites
+# -E extended BAQ for higher sensitivity but lower specificity
+# -R ignore RG tags
+#
+%.bcf: $(REF_FASTA) $(REF_FAI)
+	samtools mpileup -R -E -uf $(REF_FASTA) $(BAM) |\
+	bcftools view -bvcg - > $@
+
+$(REF_FAI): $(REF_FASTA)
+	samtools faidx $<
+
+test:
+	ssh ardmore 'samtools view -h -F4 $(ORIGINAL_BAM) |\
+	head -$(TEST_LINES) | samtools view -h -S -b -'  > test.bam
+
+clean:
+	rm -f *.bam
+
+.PHONY: test clean
+
+
