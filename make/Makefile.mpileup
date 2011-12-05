@@ -2,7 +2,11 @@
 ORIGINAL_BAM=/stornext/snfs6/rogers/drio_scratch/bio.node/baboon.diversity/p1-A/merged.dups.bam
 TEST_LINES=400000
 BAM=baboon.p1-A.$(TEST_LINES).bam
-REF_FASTA=/Users/drio/dev/genomes/baboon_Pham_2.0.fixed_to_80chr.fa
+
+AM_GEN_DIR=/stornext/snfs6/rogers/drio_scratch/genomes/
+AM_REF_FASTA=$(AM_GEN_DIR)/baboon_Pham_2.0.fixed_to_80chr.fa
+REF_FASTA=$(AM_REF_FASTA)
+
 REF_FAI=$(REF_FASTA).fai
 #
 MAX_COV=100
