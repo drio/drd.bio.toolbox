@@ -75,24 +75,28 @@ done
 # Merge BAMS
 # Merge alignment from the same sample in one single bam
 #
-#n_bams=`echo $local_bams | wc | awk '{print $2}'`
 n_bams=`echo $input_bams | wc | awk '{print $2}'`
 merged_bam="merged.bam"
 if [ $n_bams -gt 1 ] ;then
-  #log "Merge bams ($local_bams)"
   log "Merge bams ($input_bams)"
-  #merge_this $local_bams $merged_bam | bash
   merge_this $input_bams $merged_bam | bash
+
+  log "Verifying #reads in single bams == #reads merged bam"
+  n_reads=0
+  for b in $input_bams; do
+    tmp=`samtools view $b | wc -l`
+    n_reads=$[$n_reads+$tmp]
+  done
+  n_reads_merged_bam=`samtools view $merged_bam | wc -l`
+  if [ $n_reads -ne $n_reads_merged_bam ];then
+    log "Bailing out: (Single);$n_reads != (Merged);$n_reads_merged_bam"  
+  else
+    log "# of reads match. Good."
+  fi
 else
-  log "No need to merge a single bam"
-  #mv $local_bams $merged_bam
+  log "No need to merge, input is a single bam"
   merged_bam=$input_bams
 fi
-
-# Clean up the single bams as we have the merged one
-#
-#log "Removing local bams" # Be a good neighbour
-#rm -f $local_bams
 
 # Mark duplicates. 
 #
