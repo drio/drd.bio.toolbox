@@ -6,14 +6,14 @@ module Common
   def load_common
     h={}
     common_file = File.dirname(__FILE__) + "/../bash/common.sh"
-    
-    File.open(common_file).each_line do |l| 
+
+    File.open(common_file).each_line do |l|
       if l =~ /^[\w_-]+=["-\/\$\w_.]+\"$/
         var, val = l.split('=')
         h[var] = val.gsub(/"/, '').chomp
         #puts var + ":" + h[var]
       end
-    end 
+    end
     h["picard_jars_dir"] = ENV["PICARD"] # Little hack .. otherwise won't load $PICARD
     h
   end
@@ -28,6 +28,20 @@ module Common
     cr = c_return  == 1 ? "\n" : ""
     sl = same_line == 1 ? "\r" : ""
     $stderr.printf "#{sl}%s#{cr}", msg
+  end
+
+  # Return an IO object for the file I want to work with
+  # Automatically deal with compressions
+  def xopen(fn=nil, mode="r")
+    if fn.nil? || fn == '-'
+      $stdin
+    elsif fn.match(/\.gz$/)
+      mode == "r" ? IO.popen("gzip -cd " + fn) : IO.popen("gzip > " + fn)
+    elsif fn.match(/\.bz2$/)
+      mode == "r" ? IO.popen("bzip2 -cd " + fn) : IO.popen("bzip2 > " + fn)
+    else
+      File.open(fn, mode)
+    end
   end
 end
 
@@ -50,32 +64,32 @@ module Help
 end
 
 module Statistics
-  def variance(population) 
-    n = 0         
-    mean = 0.0  
-    s = 0.0  
-    population.each do |x|  
-      n = n + 1     
+  def variance(population)
+    n = 0
+    mean = 0.0
+    s = 0.0
+    population.each do |x|
+      n = n + 1
       delta = x - mean
-      mean = mean + (delta / n)    
-      s = s + delta * (x - mean)  
+      mean = mean + (delta / n)
+      s = s + delta * (x - mean)
     end
 
     # if you want to calculate std deviation
     # of a sample change this to "s / (n-1)"
-    return s / n                          
+    return s / n
   end
 
   # calculate the standard deviation of a population
-  # accepts: an array, the population       
-  # returns: the standard deviation    
-  def standard_deviation(population)  
-    Math.sqrt(variance(population))  
-  end             
+  # accepts: an array, the population
+  # returns: the standard deviation
+  def standard_deviation(population)
+    Math.sqrt(variance(population))
+  end
 
-  def mean(a)     
+  def mean(a)
     sum  = a.inject(0) {|r,i| r.to_i + i.to_i }
-    sum.to_f / a.size.to_f  
-  end 
+    sum.to_f / a.size.to_f
+  end
 end
 
