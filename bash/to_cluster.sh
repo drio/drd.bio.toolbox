@@ -54,4 +54,6 @@ fi
 
 dump_pbs_script "$cmd" $j_name
 chmod 755 ./pbs."$j_name".sh
-echo "$submit_bin -N \"$j_name\" -q '$default_queue' -l \"nodes=1:ppn=$n_cores\" \"./pbs.$j_name.sh\""
+mkdir -p logs
+logs="-o logs/$j_name.o -e logs/$j_name.e"
+echo "$submit_bin -N \"$j_name\" -q '$default_queue' $logs -l \"nodes=1:ppn=$n_cores\" \"./pbs.$j_name.sh\""
