@@ -55,15 +55,17 @@ check_inputs()
 set_defaults()
 {
   DEF_PLOIDY=2             ; PLOIDY=$DEF_PLOIDY
-  DEF_PHRED_64=1           ; PHRED_64=$DEF_PHRED_64
+  DEF_PHRED_64=0           ; PHRED_64=$DEF_PHRED_64
   DEF_MIN_CONTIG=300       ; MIN_CONTIG=$DEF_MIN_CONTIG
   DEF_ASSEMBLY_MAX_MEM=50  ; ASSEMBLY_MAX_MEM=$DEF_ASSEMBLY_MAX_MEM
   DEF_ASSEMBLY_N_THREADS=2 ; ASSEMBLY_N_THREADS=$DEF_ASSEMBLY_N_THREADS
   DEF_SPECIE=""            ; SPECIE=$DEF_SPECIE
 
-  AP_PATH="/stornext/snfs6/rogers/drio_scratch/tmp/allpaths/local/bin"
-  PICARD_TOOLS_DIR="/stornext/snfs6/rogers/drio_scratch/bb/local/picard-tools-1.60"
-  COMMON_CMD="ulimit -s 100000; export PATH=\$PATH:${AP_PATH}"
+  #AP_PATH="/stornext/snfs6/rogers/drio_scratch/tmp/allpaths/local/bin"
+  AP_PATH="/users/yl131317/work_dir/allpathslg-39784/bin"
+  #PICARD_TOOLS_DIR="/stornext/snfs6/rogers/drio_scratch/bb/local/picard-tools-1.60"
+  PICARD_TOOLS_DIR="/stornext/snfs6/assembly/local-bin/picard-tools-1.38"
+  COMMON_CMD="source $HOME/.bashrc; ulimit -s 100000"
   CSV_GROUPS=in_groups.csv
   CSV_LIBS=in_libs.csv
 }
@@ -104,6 +106,7 @@ set_cmds()
    IN_GROUPS_CSV=in_groups.csv \
    IN_LIBS_CSV=in_libs.csv \
    PHRED_64=$PHRED_64 \
+   TMP_DIR=/space1/tmp \
    OVERWRITE=True"
   #
   ASSEMBLY_CMD=" ${COMMON_CMD}; \
@@ -125,7 +128,7 @@ dump_script()
   PBS_LOGS=${PWD}/logs
   PBS_QUEUE_PREP=gac
   PBS_QUEUE_ASSEMBLY=gac
-  PBS_PREP_RESOURCES="nodes=1:ppn=4,mem=20000mb,feature=bigmem"
+  PBS_PREP_RESOURCES="nodes=1:ppn=3,mem=100000mb"
   PBS_ASSEMBLY_RESOURCES="nodes=1:ppn=${ASSEMBLY_N_THREADS},mem=${ASSEMBLY_MAX_MEM}G,feature=bigmem"
   PBS_JOB_NAME_SEED="APLG.${SPECIE}"
 
