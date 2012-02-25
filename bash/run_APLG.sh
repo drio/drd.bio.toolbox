@@ -14,7 +14,7 @@ OPTIONS:
    -h      Show this message
    -i      Ploidy of the genome [$PLOIDY]
    -d      Input data quality is in Phread_64 [$PHRED_64]
-   -m      Max memory to use in assembly [$ASSEMBLY_MAX_MEM]
+   -m      Max memory to use in assembly [$ASSEMBLY_MAX_MEM] (in Gb)
    -c      Minimun size to consider a contig [$MIN_CONTIG]
    -t      Max number of threads in assembly [$ASSEMBLY_N_THREADS]
    -s      Specie name (Mandatory)
@@ -107,7 +107,7 @@ set_cmds()
    IN_LIBS_CSV=in_libs.csv \
    PHRED_64=$PHRED_64 \
    TMP_DIR=/space1/tmp \
-   OVERWRITE=True"
+   OVERWRITE=False"
   #
   ASSEMBLY_CMD=" ${COMMON_CMD}; \
   RunAllPathsLG \
