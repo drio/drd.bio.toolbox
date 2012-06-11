@@ -32,7 +32,7 @@ module Common
 
   # Return an IO object for the file I want to work with
   # Automatically deal with compressions
-  def xopen(fn=nil, mode="r")
+  def self.xopen(fn=nil, mode="r")
     if fn.nil? || fn == '-'
       $stdin
     elsif fn.match(/\.gz$/)
