@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class vcfAddCoverage {
   private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
   private final List<String> bams = new ArrayList<String>();
-  private final Pattern RE_IGNORE = Pattern.compile("SYNONYMOUS_CODING|UPSTREAM|DOWNSTREAM|NONE|INTERGENIC|INTRON");
+  private final Pattern RE_IGNORE = Pattern.compile("=SYNONYMOUS_CODING|UPSTREAM|DOWNSTREAM|NONE|INTERGENIC|INTRON\\(");
   private final String NEW_INFO   = "##INFO=<ID=RDP,Number=.,Type=String,Description=\"Number of reads in site for sample\">";
 
   public static void main(String[] args){
