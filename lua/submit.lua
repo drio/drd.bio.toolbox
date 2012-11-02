@@ -72,7 +72,7 @@ cmd = (cmd == "") and io.read("*all") or cmd
 -- Dump the moab command
 local output = {}
 local ti = table.insert
-ti(output, 'echo \'' .. cmd .. '\'')
+ti(output, 'echo \'' .. string.gsub(cmd, "[\r\n]+$", "") .. '\'')
 ti(output, ' |')
 ti(output, ' qsub -N ' .. opts.s)
 ti(output, ' -W depend=afterok:' .. opts.d)
