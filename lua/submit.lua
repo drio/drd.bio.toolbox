@@ -75,7 +75,10 @@ local ti = table.insert
 ti(output, 'echo \'' .. string.gsub(cmd, "[\r\n]+$", "") .. '\'')
 ti(output, ' |')
 ti(output, ' qsub -N ' .. opts.s)
-ti(output, ' -W depend=afterok:' .. opts.d)
+if opts.d ~= '' then
+  ti(output, ' -W depend=afterok:' .. opts.d)
+end
+
 ti(output, ' -q ' .. opts.q)
 ti(output, ' -d `pwd`')
 ti(output, ' -o moab_logs/' .. opts.s .. ".o")
